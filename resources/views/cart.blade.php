@@ -5,8 +5,9 @@
          @csrf
       <div class="row">
         <div class="col-md-8 cartDisplay">
-          <div class="selAll">
+          <div class="selAll mb-3">
             <h5>Cart Item(s)</h5>
+            <hr>
           </div>
 
 
@@ -29,7 +30,13 @@
           <h5>Total</h5>
           <p ></p>
           <br>
-          <input type="submit" name="submit" class="btn btn-primary pcdBtn btn-lg mx-4" value="PROCEED TO CHECKOUT">
+          <div class="row">
+            {{-- <div class="col-md-2">
+            </div> --}}
+            <div class="col-md-8 offset-2 p-1">
+              <input type="submit" name="submit" class="btn btn-primary pcdBtn form-control" value="CHECKOUT">
+            </div>
+          </div>
         </div>
       </div>
       </form>

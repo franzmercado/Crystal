@@ -9,8 +9,6 @@
         <li class="list-group-item">
         <h5  class="list-group-item"  align="center">Categories</h5>
         </li>
-
-
       </ul>
     </div>
   </div>
@@ -34,8 +32,6 @@
           <img src="{{ asset('dist/img/flag/3.jpg')}}" alt="" >
         </div>
       </div>
-
-
       <a class="carousel-control-prev" href="#onSale" data-slide="prev">
         <span class="carousel-control-prev-icon"></span>
       </a>
@@ -48,15 +44,18 @@
 </div>
 
 <div class="row">
-  <div id="latest" class="row col-md-11 offset-1">
+  <div id="latest" class="col-md-11 offset-1">
+    <hr>
     <h4>Latest Products </h4>
     <hr>
             <ul class="thumbnails" id="latestProducts">
             </ul>
   </div>
-  <div id="popular" class="row col-md-11 offset-1">
+  <div id="popular" class="col-md-11 offset-1">
+      <hr>
     <h4>Popular Products </h4>
       <hr>
+
             <ul class="thumbnails" id="popularProducts">
             </ul>
   </div>

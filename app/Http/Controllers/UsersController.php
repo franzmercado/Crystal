@@ -84,59 +84,67 @@ class UsersController extends Controller
   public function removeToCart($id)
   {
     if (request()->ajax()) {
+      $usrID = '';
       $data = Cart::findOrFail($id);
+      $usrID = $data->userID;
       $data->delete();
-      return response()->json(['success' => '1']);
+      $items = Cart::where('carts.userID', '=',$usrID)->count();
+
+      return $items;
     }
   }
 
   public function checkOut(Request $request)
   {
-    $rec = $request->all();
+    if ($request->has('_token')) {
+      $rec = $request->all();
+      $prod = array();
+      $price = array();
+      $qty = array();
+      $products = array();
+      $total = $rec['ctr'];
+      foreach ($rec['prod'] as $value) {
+        $selProd =  Product::findOrFail($value);
+        $prod[] = $selProd['brandName'];
+        // $prod['name'][] = $selProd['price'];
+      }
+      foreach ($rec['prod'] as $value) {
+        $selProd =  Product::findOrFail($value);
+        $price[] = $selProd['price'];
+        // $prod['name'][] = $selProd['price'];
+      }
 
-    $prod = array();
-    $price = array();
-    $qty = array();
-    $products = array();
-    $total = $rec['ctr'];
-    foreach ($rec['prod'] as $value) {
-      $selProd =  Product::findOrFail($value);
-      $prod[] = $selProd['brandName'];
-      // $prod['name'][] = $selProd['price'];
-    }
-    foreach ($rec['prod'] as $value) {
-      $selProd =  Product::findOrFail($value);
-      $price[] = $selProd['price'];
-      // $prod['name'][] = $selProd['price'];
+      foreach ($rec['valQtys'] as $value) {
+        $qty[] =  $value;
+      }
+      foreach ($prod as $key => $value) {
+        $products[] = [$value, $price[$key], $qty[$key]];
+      }
+
+      $uID = Auth::id();
+      $users = DB::table('users')
+                ->join('userinfo', 'users.userID', '=', 'userinfo.userID')
+                ->select('users.firstName', 'users.midName', 'users.lastName', 'userinfo.mobileNum',
+                'userinfo.buldingNum','userinfo.brgy','userinfo.city', 'userinfo.province')
+                ->where('users.userID', $uID)
+                ->take(1)->get();
+      // echo json_encode($users);die;
+      $myFunctions = new myFunctions();
+      $ads = $myFunctions->makeAddress($users[0]->buldingNum,$users[0]->brgy, $users[0]->city,$users[0]->province);
+
+        return view('checkout')->with([
+          'nav' => 2,
+          'sjs' => 1,
+          'special_js' => 'main',
+          'custom_js'  => 'cart',
+          'products' => $products,
+          'total' => $total,
+          'address' => $ads
+    ]);
+    } else {
+      abort(403, "Sorry, you cannot access this page directly!");
     }
 
-    foreach ($rec['valQtys'] as $value) {
-      $qty[] =  $value;
-    }
-    foreach ($prod as $key => $value) {
-      $products[] = [$value, $price[$key], $qty[$key]];
-    }
-
-    $uID = Auth::id();
-    $users = DB::table('users')
-              ->join('userinfo', 'users.userID', '=', 'userinfo.userID')
-              ->select('users.firstName', 'users.midName', 'users.lastName', 'userinfo.mobileNum',
-              'userinfo.buldingNum','userinfo.brgy','userinfo.city', 'userinfo.province')
-              ->where('users.userID', $uID)
-              ->take(1)->get();
-    // echo json_encode($users);die;
-    $myFunctions = new myFunctions();
-    $ads = $myFunctions->makeAddress($users[0]->buldingNum,$users[0]->brgy, $users[0]->city,$users[0]->province);
-
-      return view('checkout')->with([
-        'nav' => 2,
-        'sjs' => 1,
-        'special_js' => 'main',
-        'custom_js'  => 'cart',
-        'products' => $products,
-        'total' => $total,
-        'address' => $ads
-  ]);
 
   }
   public function placeOrder(Request $request)

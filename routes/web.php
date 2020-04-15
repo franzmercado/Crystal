@@ -27,8 +27,8 @@ Route::get('/profile', 'UsersController@index')->name('profile');
 Route::get('/carts', 'UsersController@carts')->name('carts');
 Route::get('/getcarts', 'UsersController@getCarts')->name('getCarts');
 Route::post('/carts/add', 'UsersController@addToCart')->name('addToCart');
-Route::delete('/carts/del/{id}', 'UsersController@removeToCart')->name('removeToCart');
-Route::post('/carts/checkout', 'UsersController@checkOut')->name('checkOut');
+Route::post('/carts/del/{id}', 'UsersController@removeToCart')->name('removeToCart');
+Route::any('/carts/checkout', 'UsersController@checkOut')->name('checkOut');
 Route::post('/carts/order', 'UsersController@placeOrder')->name('placeOrder');
 Route::post('/carts/changeqty', 'UsersController@changeQty')->name('changeQty');
 

@@ -1,12 +1,14 @@
 @extends('layouts.app')
 @section('content')
-  <div class="p-2 mt-2 bg-white border rounded">
-    @if(isset($title))
-      <h5><a href="/"> Home </a><b>></b><a href="/category=@php echo $title['catID']@endphp"> @php echo $title['catDesc']@endphp </a><b>></b>@php echo $title['prodName']@endphp </h5>
-    @endif
-
+  <div class="p-0 mt-2">
+    <div class="row">
+      <div class="col-md-12">
+        @if(isset($title))
+          <p class="float-left m-0"><a href="/"> Home </a><b>></b><a href="/category=@php echo $title['catID']@endphp"> @php echo $title['catDesc']@endphp </a><b>></b>@php echo $title['prodName']@endphp </p>
+        @endif
+      </div>
+    </div>
   </div>
-  <br >
   <div class="p-4 bg-white border rounded" id="showBG">
             @if(isset($product))
             <div class="row">
