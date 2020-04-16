@@ -30,24 +30,32 @@
 
         </div>
         <div class="col-md-4 cartDelivery" >
-          <h5><i class=" fa fa-map-marker fa-lg"></i> Location</h5>
+          <div class="row">
+            <div class="col-md-10 offset 1">
+              <p><i class=" fa fa-map-marker fa-lg"></i> Location</p>
+            </div>
+            <div class="col-md-2">
+              <a class="float-right" href="{{route('profile')}}">Change</a>
+
+            </div>
+          </div>
+
           <textarea name="address" class="form-control" readonly rows="3" cols="80">@php echo $address; @endphp
-        </textarea>
-        <br>
-        {{-- <h5>Contact Number:</h5>
-        <input type="text" name="" value=""> --}}
-          <a href="#">Change</a>
+          </textarea>
+          {{-- <h5>Contact Number:</h5>
+          <input type="text" name="" value=""> --}}
+
           <hr>
-          <h4 class="pb-2">Payment Type</h4>
-          <input type="radio" name="cod" checked > <label for="cod"><i class="fa fa-truck"></i> Cash on Delivery</label>
-          <br>
+          <h5 class="pb-2">Payment Type</h5>
+          <div class="form-group ml-2">
+            <input type="radio" name="cod" checked > <label for="cod"><i class="fa fa-truck"></i> Cash on Delivery</label></input>
+          </div>
           <hr>
           <p class="float-right">@php
             echo $total;
           @endphp</p><span class="float-right">P</span>
-
           <h5>Total Amount</h5>
-          <p ></p>
+          <p></p>
           <br>
           <button type="button" class="btn btn-primary orderBtn" name="button">PLACE ORDER</button>
         </div>

@@ -43,6 +43,10 @@ class myFunctions {
     $data = date('M. d, Y', strtotime(explode(" ", $date)[0]));
     return $data;
   }
+  public function convernumDate($date){
+    $data = date('m/d/Y', strtotime(explode(" ", $date)[0]));
+    return $data;
+  }
   public function orderStatus($num){
     switch ($num) {
         case 0:
@@ -59,6 +63,31 @@ class myFunctions {
           break;
         case 4:
           return "<span class='btn btn-success btn-sm w-100'>Delivered</span>";
+          break;
+        case 9:
+          return "<span class='btn btn-danger btn-sm w-100'>Declined</span>";
+          break;
+      }
+  }
+  public function orderCStatus($num){
+    switch ($num) {
+        case 0:
+          return "<span class='btn btn-secondary btn-sm w-100'>Cancelled</span>";
+          break;
+        case 1:
+          return "<span class='btn btn-warning btn-sm w-100'>Pending</span>";
+          break;
+        case 2:
+          return "<span class='btn btn-info btn-sm w-100'>To Ship</span>";
+          break;
+        case 3:
+          return "<span class='btn btn-primary btn-sm w-100'>To receive</span>";
+          break;
+        case 4:
+          return "<span class='btn btn-success btn-sm w-100'>Completed</span>";
+          break;
+        case 9:
+          return "<span class='btn btn-danger btn-sm w-100'>Declined</span>";
           break;
       }
   }

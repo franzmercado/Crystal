@@ -103,6 +103,7 @@ class UsersController extends Controller
       $qty = array();
       $products = array();
       $total = $rec['ctr'];
+
       foreach ($rec['prod'] as $value) {
         $selProd =  Product::findOrFail($value);
         $prod[] = $selProd['brandName'];
@@ -189,7 +190,7 @@ class UsersController extends Controller
 
     }
 
-   return response()->json(['success' => 'Order placement Complete']);
+   return response()->json(['success' => 'Order placement complete!']);
   }
   public function changeQty(Request $request)
   {
@@ -201,5 +202,90 @@ class UsersController extends Controller
     $data->save();
 
    return response()->json(['success' => 1]);
+  }
+
+  public function orders()
+  {
+    if (request()->ajax()) {
+    $userID = Auth::id();
+    $transacs = Transaction::select('*')->where('userID', $userID)->get();
+    return datatables()->of($transacs)
+          ->editColumn('items', function($data){
+            $items = Order::select('prodID', 'quantity')->where('transactionID', $data->transactionID)->get();
+            $itemlist = '';
+            foreach ($items as $value) {
+              $name = Product::select('brandName', 'size')->where('prodID', $value['prodID'])->first();
+              $itemlist .= "<p class='m-0'>".$name['brandName']." ".$name['size']." - ".$value['quantity']."pc(s)</p>";
+            }
+
+            return $itemlist;
+          })
+          ->editColumn('dOrder', function($data){
+            $myFunctions = new myFunctions();
+            $orderDate = $myFunctions->convernumDate($data->created_at);
+
+            return $orderDate;
+          })
+          ->editColumn('dDelivered', function($data){
+            if ($data->status == 4) {
+              $myFunctions = new myFunctions();
+              $del = $myFunctions->convernumDate($data->dateFinished);
+            }else {
+              $del = '';
+            }
+            return $del;
+          })
+          ->editColumn('total', function($data){
+            $total = '₱'.number_format($data->total, 2, '.', ', ');
+            return $total;
+          })
+          ->editColumn('status', function($data){
+            $myFunctions = new myFunctions();
+            $stat = $myFunctions->orderCStatus($data->status);
+
+            return $stat;
+          })
+          ->addColumn('action', function($data){
+            if ($data->status == 1 || $data->status == 2) {
+              $button = '<button class="btn btn-sm btn-danger cnlOrder" id="'.$data->transactionID.'"><i class="fa fa-window-close fa-lg"></i></button>';
+            }else {
+              $button = '';
+
+            }
+            return $button;
+          })
+          ->rawColumns(['action', 'items', 'status'])
+          ->make(true);
+     }
+      return view('orders')->with([
+        'nav' => 2,
+        'sjs' => 1,
+        'special_js' => 'main',
+        'custom_js'  => 'orders',
+  ]);
+  }
+
+  public function cancelOrder(Request $request, $id){
+    $tID = $id;
+    $res = Transaction::select('status')->where('transactionID', $tID)->first();
+
+    if ($res->status == 2) {
+      $orders = Order::where('transactionID', $id)->get();
+      foreach ($orders as $order) {
+        $quantity = Product::select('quantity')->where('prodID', $order->prodID)->first();
+        $new = $quantity->quantity + $order->quantity;
+        $prod = Product::find($order->prodID);
+        $prod->quantity = $new;
+        $prod->update();
+      }
+    }else {
+      // code...
+    }
+
+    $data = Transaction::findOrFail($tID);
+    $data->status = 0;
+    $data->update();
+
+    return response()->json(['success' => ' Transaction Cancelled']);
   }
 }

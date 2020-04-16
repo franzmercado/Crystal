@@ -30,9 +30,7 @@ $(document).ready(function() {
                     $('<li>').attr('class', 'list-group-item cartItem').append(
                       $('<div>').attr('class', 'row').append(
                         $('<div>').attr('class', 'float-left').append(
-                          $('<div>').attr('class', 'form-check').append(
-                            $('<input>').attr({'type': 'checkbox', 'class': 'form-check-input'})
-                            ))).append(
+                          $('<div>').attr('class', 'form-check'))).append(
                             $('<img>').attr({'src': srcImg, 'class': 'float-left', 'width': '60px'})
                             ).append(
                             $('<div>').attr('class', 'col-md-6 cartItemDesc').append(
@@ -100,8 +98,15 @@ $(document).on('click', '.orderBtn', function(){
     url: "{{ route('placeOrder')}}",
     method: "POST",
     success:function(data){
-    toastr.success(data.success, 'Success!');
-    window.location = '/';
+    Swal.fire({
+      title: 'Success!',
+      text: data.success,
+      type: 'success'
+    }).then((result) => {
+      if (result.value) {
+        window.location = '/orders';
+      }
+    });
     }
   });
 });

@@ -5,10 +5,8 @@
 <div class="row">
   <div class="col-md-3">
     <div class="" style="border: 1px solid grey; max-height: 450px; overflow: auto;">
-      <ul class="list-group" id="categoryList">
-        <li class="list-group-item">
-        <h5  class="list-group-item"  align="center">Categories</h5>
-        </li>
+         <h5 class="m-2" align="center">Categories</h5>
+      <ul class="list-group" id="categoryList" >
       </ul>
     </div>
   </div>

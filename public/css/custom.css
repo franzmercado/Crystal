@@ -255,12 +255,22 @@ min-height:480px;
 
 /* Style the form icons */
 .icon {
-  padding-top: 15px;
-  background: gray;
-  color: white;
-  min-width: 40px;
+  padding-top: 12px;
+  background: #e6e6e6;
+  color: black;
+  min-width: 25px;
   text-align: center;
+  border-left: 1px solid #d1d1d1;
+  border-top: 1px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
 
+
+
+}
+.catlist{
+  border : 1px solid black;
+  margin-top: : 0px;
+  padding: 5px;
 }
 
 /* Style the input fields */

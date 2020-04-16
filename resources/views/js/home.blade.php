@@ -59,7 +59,7 @@ $.ajax({
 
 
           $('#categoryList').append(
-            $('<li>').attr('class', 'list-group-item').append(
+            $('<li>').attr('class', 'catlist').append(
               $('<a>').attr('href', catID).append(
                 desc
                 )));

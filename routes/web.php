@@ -23,7 +23,8 @@ Route::get('/search', 'HomeController@searchProduct')->name('searchProduct');
 Auth::routes([ 'verify' => true ]);
 
 Route::get('/profile', 'UsersController@index')->name('profile');
-
+Route::get('/orders', 'UsersController@orders')->name('orders');
+Route::patch('/orders/cancel/{id}', 'UsersController@cancelOrder')->name('cnlOrder');
 Route::get('/carts', 'UsersController@carts')->name('carts');
 Route::get('/getcarts', 'UsersController@getCarts')->name('getCarts');
 Route::post('/carts/add', 'UsersController@addToCart')->name('addToCart');

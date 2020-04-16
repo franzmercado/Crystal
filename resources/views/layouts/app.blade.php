@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}" media="screen">
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" media="screen">
@@ -35,14 +36,17 @@
     </main>
 </div>
     @include('inc.footer')
-    <script src="{{asset('js/app.js')}}" defer></script>
+    <script src="{{asset('js/app.js')}}"></script>
     <script src="{{ asset('js/city.js')}}" ></script>
     <script src="{{ asset('js/toastr.min.js')}}" defer></script>
     <script src="{{ asset('js/bootstrap.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.min.js')}}"></script>
+
     {{-- <script src="{{ asset('js/popper.min.js')}}" defer></script> --}}
     {{-- <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script> --}}
-    <script src="{{ asset('js/sweetalert2.all.js')}}"></script>
-    <script src="{{ asset('js/sweetalert2.min.js')}}"></script>
+    <script src="{{ asset('js/sweetalert2.all.js')}}" defer></script>
+    <script src="{{ asset('js/sweetalert2.min.js')}}" defer></script>
 
 
 

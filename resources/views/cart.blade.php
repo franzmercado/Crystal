@@ -10,7 +10,6 @@
             <hr>
           </div>
 
-
             <ul class="cartItems list-group">
 
             </ul>
