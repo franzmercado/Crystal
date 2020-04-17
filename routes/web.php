@@ -23,6 +23,10 @@ Route::get('/search', 'HomeController@searchProduct')->name('searchProduct');
 Auth::routes([ 'verify' => true ]);
 
 Route::get('/profile', 'UsersController@index')->name('profile');
+Route::put('/profile/saveInfo', 'UsersController@saveInfo')->name('saveInfo');
+Route::put('/profile/saveAddress', 'UsersController@saveAddress')->name('saveAddress');
+Route::patch('/profile/checkPass', 'UsersController@checkPass')->name('checkPass');
+Route::patch('/profile/changePass', 'UsersController@changePass')->name('changePass');
 Route::get('/orders', 'UsersController@orders')->name('orders');
 Route::patch('/orders/cancel/{id}', 'UsersController@cancelOrder')->name('cnlOrder');
 Route::get('/carts', 'UsersController@carts')->name('carts');

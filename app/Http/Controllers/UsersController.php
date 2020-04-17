@@ -8,6 +8,9 @@ use App\Transaction;
 use App\Order;
 use App\User;
 use App\Userinfo;
+use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Validator;
+
 use App\Libraries\myFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -287,5 +290,65 @@ class UsersController extends Controller
     $data->update();
 
     return response()->json(['success' => ' Transaction Cancelled']);
+  }
+  public function saveInfo(Request $request){
+    try {
+          $userID = Auth::id();
+          $userData = User::findOrFail($userID);
+          $userData->firstName = $request->fname;
+          $userData->midName = $request->mname;
+          $userData->lastName = $request->lname;
+          $userData->email  = $request->email;
+          $userData->update();
+
+          $userInfo = Userinfo::where('userID',$userID)->first();
+          $userInfo->gender = $request->gender;
+          $userInfo->mobileNum = $request->contact;
+          $userInfo->birthDay = $request->bday;
+          $userInfo->update();
+          return response()->json(['success' => 'Personal information updated']);
+    } catch (\Exception $e) {
+      return response()->json(['error' => $e]);
+    }
+  }
+  public function saveAddress(Request $request){
+    try {
+          $userID = Auth::id();
+
+          $userInfo = Userinfo::where('userID',$userID)->first();
+          $userInfo->buldingNum = $request->houseNum;
+          $userInfo->brgy = $request->brgy;
+          $userInfo->city = $request->city;
+          $userInfo->province = $request->province;
+          $userInfo->zip = $request->zip;
+          $userInfo->update();
+          return response()->json(['success' => 'Delivery address updated!']);
+    } catch (\Exception $e) {
+      return response()->json(['error' => $e]);
+    }
+  }
+  public function checkPass(Request $request){
+          $userID = Auth::id();
+          $data = User::find($userID);
+          if (Hash::check($request->pass,$data->password)) {
+            return 1;
+          }else{
+            return 0;
+          }
+
+  }
+  public function changePass(Request $request){
+    try {
+          $userID = Auth::id();
+          $newpass = Hash::make($request->pass);
+
+          $result = User::findOrFail($userID);
+          $result->password =  $newpass;
+          $result->update();
+
+          return response()->json(['success' => 'Password updated!']);
+    } catch (\Exception $e) {
+      return response()->json(['error' => $e]);
+    }
   }
 }
