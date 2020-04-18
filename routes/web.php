@@ -30,6 +30,7 @@ Route::patch('/profile/changePass', 'UsersController@changePass')->name('changeP
 Route::get('/orders', 'UsersController@orders')->name('orders');
 Route::patch('/orders/cancel/{id}', 'UsersController@cancelOrder')->name('cnlOrder');
 Route::get('/carts', 'UsersController@carts')->name('carts');
+Route::get('/countCart', 'UsersController@countCart')->name('countCart');
 Route::get('/getcarts', 'UsersController@getCarts')->name('getCarts');
 Route::post('/carts/add', 'UsersController@addToCart')->name('addToCart');
 Route::post('/carts/del/{id}', 'UsersController@removeToCart')->name('removeToCart');

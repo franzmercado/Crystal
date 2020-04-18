@@ -4,8 +4,10 @@
   <div class="crystalHome">
 <div class="row">
   <div class="col-md-3">
-    <div class="" style="border: 1px solid grey; max-height: 450px; overflow: auto;">
-         <h5 class="m-2" align="center">Categories</h5>
+    <div class="categorySection" >
+      <font class="float-right mr-2 mt-1" color="black">v</font>
+
+        <h5 class="m-2" id="cathead" align="center">Categories </h5>
       <ul class="list-group" id="categoryList" >
       </ul>
     </div>

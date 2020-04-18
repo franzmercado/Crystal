@@ -59,8 +59,8 @@ $.ajax({
 
 
           $('#categoryList').append(
-            $('<li>').attr('class', 'catlist').append(
               $('<a>').attr('href', catID).append(
+                $('<li>').attr('class', 'catlist').append(
                 desc
                 )));
         });
@@ -68,6 +68,11 @@ $.ajax({
           }
       });
 
-
+$('#cathead').hover(function(){
+  $('.catlist').attr('style','display: block;')
+});
+$('.categorySection').hover(function(){
+  $('.catlist').attr('style','display: none;')
+});
 
 });

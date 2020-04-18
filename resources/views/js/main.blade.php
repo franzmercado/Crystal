@@ -11,6 +11,8 @@ $(document).ready(function() {
   }, 3000);
 
 
+ itemCount();
+
 $(document).on('click', '.addCart', function(){
   var id = $(this).attr('id');
   $.ajax({
@@ -21,7 +23,7 @@ $(document).on('click', '.addCart', function(){
        _token : '{{ csrf_token()}}',
      },
      success:function(data){
-
+        itemCount();
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -49,7 +51,19 @@ $(document).on('click', '.addCart', function(){
 
 });
 
-
+function itemCount(){
+  $.ajax({
+     url: "{{ route('countCart')}}",
+     type: "GET",
+     success:function(data){
+       if(data < 1){
+         $('#cartCtr').text('');
+       }else{
+         $('#cartCtr').text(data);
+       }
+     }
+   });
+}
 
 	function openTab(evt, cityName) {
 	  var i, tabcontent, tablinks;

@@ -77,14 +77,17 @@ $(document).ready(function() {
         method: "POST",
         dataType: "json",
         success:function(data){
+          itemCount();
           if(data < 1){
             $('.pcdBtn').attr('style', 'display:none;');
             $('#subShip').text(0.00);
             $('#total').text(0.00);
             $('.cartItems').append(
+
               $('<li>').attr('class', 'list-group-item').append(
                 $('<p>').text('Your Cart is empty!')
                 ));
+            itemCount();
           }
         }
     });
@@ -109,6 +112,7 @@ $(document).on('click', '.orderBtn', function(){
         url: "{{ route('placeOrder')}}",
         method: "POST",
         success:function(data){
+          itemCount();
         Swal.fire({
           title: 'Success!',
           text: data.success,
@@ -162,8 +166,9 @@ $(document).on('click', '#butsub', function(e){
 
 
   });
-});
 
+
+});
 
 function compute_cart(){
   var st = 0;

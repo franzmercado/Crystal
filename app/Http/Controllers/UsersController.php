@@ -379,4 +379,22 @@ class UsersController extends Controller
       return response()->json(['error' => $e]);
     }
   }
+
+  public function countCart(){
+
+          $userID = Auth::id();
+
+          try {
+            $ctrItems = DB::table('carts')
+                        ->select(DB::raw('count(id) as ctr'))
+                        ->groupBy('userID')
+                        ->first();
+            return $ctrItems->ctr;
+          } catch (\Exception $e) {
+            return 0;
+          }
+
+
+
+  }
 }

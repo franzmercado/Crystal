@@ -152,6 +152,38 @@ overflow: hidden;
   height: 500px;
   overflow: hidden;
 }
+.categorySection{
+  border: 1px solid grey;
+  background-color:  #f5f5ef;
+  max-height: 450px;
+  overflow: auto;
+
+}
+#cathead{
+  cursor: default;
+
+}
+.categorySection a{
+  text-decoration: none;
+}
+.catlist{
+  display: none;
+  cursor: default;
+  /* border-top : 1px solid grey; */
+  margin-top: : 0px;
+  padding: 5px;
+  color: grey;
+}
+
+.catlist:hover{
+  text-decoration: none;
+  background-color: #e1e1d0;
+  color: black;
+  font-size: 17px;
+  padding: 4px;
+
+
+}
 .desc{
   height: 400px;
   width: 150px;
@@ -267,11 +299,7 @@ min-height:480px;
 
 
 }
-.catlist{
-  border : 1px solid black;
-  margin-top: : 0px;
-  padding: 5px;
-}
+
 
 /* Style the input fields */
 .input-field {
