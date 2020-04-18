@@ -41,7 +41,7 @@ $(document).ready(function() {
                                 ).append(
                                 $('<p>').text('Size: '+ value.size)
                                 ).append(
-                                $('<p>').text('Sold: '+value.sold)
+                                $('<p>').text('Stock: '+value.quantity)
                                 ))).append(
                                 $('<div>').attr('class', 'col-md-2').append(
                                   $('<label>').text('Price')
@@ -57,7 +57,7 @@ $(document).ready(function() {
                                 ).append(
                                 $('<div>').attr('class', 'col-md-2').append(
                                       $('<label>').text('Qty.').append(
-                                        $('<input>').attr({'type': 'number', 'class' : 'form-control mt-2 valQty', 'name': 'valQtys[]','id': value.price,'rel': value.id, 'value': value.quantity, 'min': 1, 'steps': 1})
+                                        $('<input>').attr({'type': 'number', 'class' : 'form-control mt-2 valQty', 'name': 'valQtys[]','id': value.price,'rel': value.id, 'value': value.qty, 'min': 1,'max': value.quantity , 'steps': 1})
                                         ).append(
                                         $('<input>').attr({'type': 'hidden', 'class' : ' hidProd', 'name': 'prod[]', 'value': value.prodID})
                                         )))));
@@ -94,22 +94,54 @@ $(document).ready(function() {
 
 $(document).on('click', '.orderBtn', function(){
   var total = $('#total').val();
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "",
+    type: 'warning',
+    showCancelButton: true,
+    cancelButtonColor: '#B0AEAE',
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Confirm'
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: "{{ route('placeOrder')}}",
+        method: "POST",
+        success:function(data){
+        Swal.fire({
+          title: 'Success!',
+          text: data.success,
+          type: 'success'
+        }).then((result) => {
+          if (result.value) {
+            window.location = '/orders';
+          }
+        });
+        }
+      });
+    }
+  });
+
+});
+
+$(document).on('click', '#butsub', function(e){
   $.ajax({
-    url: "{{ route('placeOrder')}}",
-    method: "POST",
+    url: "{{ route('checkStocks')}}",
+    method: "GET",
     success:function(data){
-    Swal.fire({
-      title: 'Success!',
-      text: data.success,
-      type: 'success'
-    }).then((result) => {
-      if (result.value) {
-        window.location = '/orders';
+      if(data === 'true'){
+        $('#cartForm').submit();
+      }else{
+        $.each(data, function(k,v) {
+          let errormsg = v+" has not enough stocks!"
+          toastr.error(errormsg, 'Error!');
+        });
       }
-    });
     }
   });
 });
+
 
   $(document).on('change', '.valQty', function(){
   var prodID =  $(this).attr('rel');

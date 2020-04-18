@@ -20,7 +20,9 @@
                 <div class="" style="min-height: 245px;">
                   <b><h4>@php echo $product->brandName." ".$product->size @endphp</h4></b><hr>
                   <h5><b>₱</b>@php echo number_format($product->price, 2, '.', ', ')  @endphp </h5>
-                  <p>Sold: @php echo $product->sold @endphp</p>
+                  <p class="mb-0">Sold: @php echo $product->sold @endphp</p>
+                  <p >Stock: @php echo $product->quantity @endphp</p>
+
                   <p>@php echo $product->description @endphp</p>
                 </div>
 

@@ -9,8 +9,7 @@ use App\Order;
 use App\User;
 use App\Userinfo;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Validator;
 use App\Libraries\myFunctions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +67,7 @@ class UsersController extends Controller
       $savedItems = DB::table('carts')
           ->join('products', 'carts.prodID', '=', 'products.prodID')
           ->join('categories', 'products.categoryID', '=', 'categories.id')
-          ->select('*', 'carts.id','carts.quantity')
+          ->select('*', 'carts.id','carts.quantity as qty')
           ->where('carts.userID', '=',$userID)
           ->get();
 
@@ -151,6 +150,35 @@ class UsersController extends Controller
 
 
   }
+
+  public function checkStocks(){
+    $userID = Auth::id();
+    $ctr = 0;
+    $name = array();
+
+    $cartItems = DB::table('carts')
+                ->select('prodID', DB::raw('sum(quantity) as total'))
+                ->groupBy('prodID')
+                ->get();
+    // echo $cartItems;
+    // die;
+    foreach ($cartItems as $value) {
+      $prods = Product::where('prodID', $value->prodID)->first();
+      if ($value->total > $prods->quantity) {
+        $ctr++;
+        $name[] = $prods->brandName;
+      }else {
+
+      }
+    }
+    if ($ctr<1) {
+      return 'true';
+    }else {
+      return $name;
+
+    }
+  }
+
   public function placeOrder(Request $request)
   {
 
@@ -211,7 +239,7 @@ class UsersController extends Controller
   {
     if (request()->ajax()) {
     $userID = Auth::id();
-    $transacs = Transaction::select('*')->where('userID', $userID)->get();
+    $transacs = Transaction::select('*')->where('userID', $userID)->orderBy('created_at','DESC')->get();
     return datatables()->of($transacs)
           ->editColumn('items', function($data){
             $items = Order::select('prodID', 'quantity')->where('transactionID', $data->transactionID)->get();

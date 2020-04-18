@@ -50,7 +50,9 @@
           <label class="mb-0" for="contact">Contact Number:</label>
           <div class="input-container">
             <i class="fa icon">+63</i>
-            <input class="form-control pl-0" type="text" value="" id="contact" name="contact" pattern="[1-9]{1}[0-9]{9}" required>
+            {{-- <input class="form-control pl-0" type="text" value="" id="contact" name="contact" pattern="[1-9]{1}[0-9]{9}" required> --}}
+            <input type="text" name="contact" id="contact" class="form-control pl-0" pattern="\d*" minlength="10" maxlength="10" title="10 digits only" required>
+
             </div>
       </div>
     </div>
@@ -106,7 +108,7 @@
 <div class="row">
   <div class=" col-md-2 offset-2" >
     <label class="mb-0" for="houseNum">Zip Code:</label>
-      <input type="number" name="zip" id="zip" class="form-control" required>
+      <input type="text" name="zip" id="zip" class="form-control" pattern="\d*" maxlength="4" title="4 digits only" required>
   </div>
   <div class="col-md-4" >
   </div>

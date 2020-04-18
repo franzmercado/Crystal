@@ -33,7 +33,8 @@
             {{-- <div class="col-md-2">
             </div> --}}
             <div class="col-md-8 offset-2 p-1">
-              <input type="submit" name="submit" class="btn btn-primary pcdBtn form-control" value="CHECKOUT">
+              <button type="button" id="butsub" name="butsub" class="btn btn-primary pcdBtn form-control" >CHECKOUT</button>
+              {{-- <input type="submit" name="submit" id="subForm" class="btn btn-primary pcdBtn form-control" value="CHECKOUT"> --}}
             </div>
           </div>
         </div>

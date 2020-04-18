@@ -153,9 +153,9 @@ overflow: hidden;
   overflow: hidden;
 }
 .desc{
-  height: 370px;
+  height: 400px;
   width: 150px;
-  margin-top: 25px;
+  /* margin-top: 25px; */
   padding: 10px 25px;
   padding-top: 30px;
   margin-left: 0px;

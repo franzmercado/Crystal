@@ -5,8 +5,8 @@
          @csrf
       <div class="row">
         <div class="col-md-8 cartDisplay">
-          <h3>Orders</h3>
-          <table class="table table-bordered">
+          <h3>Order Summary</h3>
+          <table class="table table-bordered table-stripped">
             <thead>
               <tr>
                 <th width="60%">Item</th>
@@ -52,7 +52,7 @@
           </div>
           <hr>
           <p class="float-right">@php
-            echo $total;
+            echo  number_format($total, '2', '.', ',');
           @endphp</p><span class="float-right">P</span>
           <h5>Total Amount</h5>
           <p></p>
