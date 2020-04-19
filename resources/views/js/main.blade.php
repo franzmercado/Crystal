@@ -49,7 +49,7 @@ $(document).on('click', '.addCart', function(){
    });
   });
 
-});
+}); 
 
 function itemCount(){
   $.ajax({

@@ -14,6 +14,7 @@
 //     return view('welcome')->with('special_js', 'sample');
 // });
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/showAll', 'HomeController@showAll')->name('showAll');
 Route::get('/category={cid}/show={id}', 'HomeController@showProduct')->name('showProduct');
 Route::get('/category={cid}', 'HomeController@showCategory')->name('FilterCategory');
 Route::get('/scripts/{script}.js', 'ScriptController@script')->name('script');
@@ -79,6 +80,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
 
     Route::get('/','HomeController@index')->name('home');
     Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::get('/getSales', 'HomeController@getSales')->name('getSales');
+
     Route::get('/scripts/{script}.js', 'ScriptController@script')->name('script');
 
     Route::resource('categories', 'CategoriesController');

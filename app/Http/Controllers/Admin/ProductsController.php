@@ -94,7 +94,7 @@ class ProductsController extends Controller
   }
   public function restock(){
     if (request()->ajax()) {
-        $products = Product::select(['prodID', 'thumbnail','brandName', 'size', 'categoryID', 'description', 'quantity'])->get();
+        $products = Product::select(['prodID', 'thumbnail','brandName', 'size', 'categoryID', 'description', 'quantity'])->orderBy('quantity','ASC')->get();
     return datatables()->of($products)
           ->editColumn('brandName', function($data){
             $brand = $data->brandName.' - '.$data->size;

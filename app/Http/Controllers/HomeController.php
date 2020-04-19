@@ -30,6 +30,23 @@ class HomeController extends Controller
         'custom_js'  => 'home'
         ]);
     }
+    public function showAll()
+    {
+      // if (request()->ajax()) {
+      //   $products = array();
+      //   $products['latest'] = Product::where('deleted_at', null)->orderBy('created_at','desc')->take(8)->get();
+      //   $products['popular'] = Product::where('deleted_at', null)->orderBy('sold','desc')->take(4)->get();
+      //   $products['category'] = Category::where('deleted_at', null)->orderBy('description','asc')->get();
+      //
+      //   return $products;
+      // }
+
+        return view('Showall')->with([
+        'nav' => 1,
+        'special_js' => 'main',
+        'custom_js'  => 'home'
+        ]);
+    }
     public function showProduct($catid,$id)
     {
         $category = Category::findOrFail($catid);

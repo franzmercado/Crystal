@@ -8,7 +8,7 @@
             <br>
             <!-- Small boxes (Stat box) -->
             <div class="row">
-              <div class="col-lg-3 offset-1 col-6">
+              <div class="col-md-3">
                 <!-- small box -->
                 <div class="small-box bg-info">
                   <div class="inner">
@@ -54,12 +54,33 @@
                   </div>
                 </div>
                 <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                  <!-- small box -->
+                  <div class="small-box bg-danger">
+                    <div class="inner">
+                      <h3>@php  echo $val['low'];  @endphp</h3>
 
+                      <p>Low Stocks Products</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-arrow-alt-circle-down fa-lg"></i>
+                    </div>
+                    <a href="{{ route('admin.restockProduct')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
                 </div>
           </div>
-          <div class="col-md-9 offset-1">
-            <canvas id="myChart" width="400" height="160"></canvas>
           </div>
-        </div>
+          <div class="row">
+            <div class="col-md-6">
+              <canvas id="lineChart"  height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+              <canvas id="barChart"  height="200"></canvas>
+
+            </div>
+          </div>
+
+
       </div>
 @endsection

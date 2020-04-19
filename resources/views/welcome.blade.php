@@ -46,6 +46,8 @@
 <div class="row">
   <div id="latest" class="col-md-11 offset-1">
     <hr>
+    <a class="float-right " href="{{ route('showAll')}}">Show all >></a>
+
     <h4>Latest Products </h4>
     <hr>
             <ul class="thumbnails" id="latestProducts">
