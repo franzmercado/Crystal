@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\User;
 use App\Userinfo;
+use App\Transaction;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -69,7 +70,8 @@ class UsersController extends Controller
   public function show($id)
   {
     if (request()->ajax()) {
-      $user = User::findOrFail($id);
+      $user = array();
+      $user['info'] = User::findOrFail($id);
       return response()->json(['user' => $user]);
     }
   }
@@ -84,9 +86,17 @@ class UsersController extends Controller
   public function deactivate(Request $request, $id)
   {
 
-  $data = User::findOrFail($id);
-  $data->isActive = 0;
-  $data->save();
-   return response()->json(['success' => 'Account deactivated.']);
+    $check = Transaction::where([['userID',$id],['status','>',1],['status','<',4]])->get();
+    $ctr = $check->count();
+
+    if ($ctr > 0) {
+      return response()->json(['error' => 'This account has an active transaction.']);
+
+    }else {
+      $data = User::findOrFail($id);
+      $data->isActive = 0;
+      $data->save();
+       return response()->json(['success' => 'Account deactivated.']);
+    }
   }
 }

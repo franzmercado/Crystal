@@ -128,8 +128,13 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-      $data = Category::findOrFail($id);
-      $data->delete();
-      return response()->json(['success' => 'Category has been deleted. ']);
+      try {
+        $data = Category::findOrFail($id);
+        $data->delete();
+        return response()->json(['success' => 'Category has been deleted. ']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Currently used by some products. ']);
+    }
+
     }
 }

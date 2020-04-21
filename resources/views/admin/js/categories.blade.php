@@ -82,6 +82,9 @@ $(document).on('click','.delete', function(){
 					success:function(data){
 						if(data.success){
 							toastr.success(data.success, 'Success!');
+						}else{
+							toastr.error(data.error, 'Error!');
+
 						}
 						$('#categoryTbl').DataTable().ajax.reload();
 					}

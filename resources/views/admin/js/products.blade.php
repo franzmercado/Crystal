@@ -170,6 +170,9 @@ $(document).on('click','.delBtn', function(){
 					success:function(data){
 						if(data.success){
 							toastr.success(data.success, 'Success!');
+						}else{
+							toastr.error(data.error, 'Error!');
+
 						}
 						$('#productsTbl').DataTable().ajax.reload();
 					}

@@ -46,90 +46,72 @@ $(document).ready(function() {
     url: "users/"+uId,
     dataType: "json",
     success:function(data){
-      $('#actTitle').text(data.user.userID);
-      if(data.user.isActive != 1){
-        $('.actBtn').attr('style', 'display:block;');
-        $('.actBtn').attr('id', uId);
+      if(data.user.info.isActive != 1){
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "This user account will be activated.",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#B0AEAE',
+          confirmButtonText: 'Confirm'
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+               url: "users/act/"+uId,
+               type: "PATCH",
+               data:{
+                 id : uId,
+                 _token : '{{ csrf_token()}}',
+               },
+               success:function(data){
+                 if(data.errors){
+                   for(var i = 0; i < data.errors.length; i++){
+                   toastr.error(data.errors[i], 'Error!');
+                   }
+                 }
+                 if(data.success){
+                   toastr.success(data.success, 'Success!');
+                 }
+                 $('#usersTbl').DataTable().ajax.reload();
+                 $('#actModal').modal('hide');
+               }
+           });
+          }
+        });
       }else{
-        $('.deactBtn').attr('style', 'display:block;');
-        $('.deactBtn').attr('id', uId);
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "This user account will be deactivated.",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#B0AEAE',
+          confirmButtonText: 'Confirm'
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+               url: "users/deact/"+uId,
+               type: "PATCH",
+               data:{
+                 id : uId,
+                 _token : '{{ csrf_token()}}',
+               },
+               success:function(data){
+                 if(data.error){
+                   toastr.error(data.error, 'Error!');
+                 }else{
+                   toastr.success(data.success, 'Success!');
+                 }
+                 $('#usersTbl').DataTable().ajax.reload();
+               }
+           });
+          }
+        });
       }
-      $('#actModal').modal('show');
     }
     });
  });
-
-$(document).on('click','.actBtn', function(){
-  var id = $(this).attr('id');
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "",
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#B0AEAE',
-    confirmButtonText: 'Confirm'
-  }).then((result) => {
-    if (result.value) {
-      $.ajax({
-         url: "users/act/"+id,
-         type: "PATCH",
-         data:{
-           id : id,
-           _token : '{{ csrf_token()}}',
-         },
-         success:function(data){
-           if(data.errors){
-             for(var i = 0; i < data.errors.length; i++){
-             toastr.error(data.errors[i], 'Error!');
-             }
-           }
-           if(data.success){
-             toastr.success(data.success, 'Success!');
-           }
-           $('#usersTbl').DataTable().ajax.reload();
-           $('#actModal').modal('hide');
-         }
-     });
-    }
-  });
-  });
-
-  $(document).on('click','.deactBtn', function(){
-    var id = $(this).attr('id');
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#B0AEAE',
-      confirmButtonText: 'Confirm'
-    }).then((result) => {
-      if (result.value) {
-        $.ajax({
-           url: "users/deact/"+id,
-           type: "PATCH",
-           data:{
-             id : id,
-             _token : '{{ csrf_token()}}',
-           },
-           success:function(data){
-             if(data.errors){
-               for(var i = 0; i < data.errors.length; i++){
-               toastr.error(data.errors[i], 'Error!');
-               }
-             }
-             if(data.success){
-               toastr.success(data.success, 'Success!');
-             }
-             $('#usersTbl').DataTable().ajax.reload();
-             $('#actModal').modal('hide');
-           }
-       });
-      }
-    });
-    });
 
 });
 

@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Product;
 use App\Category;
+use App\Transaction;
+use App\Order;
+
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Libraries\myFunctions;
@@ -13,7 +17,7 @@ class ProductsController extends Controller
 {
   public function index(){
     if (request()->ajax()) {
-        $products = Product::select(['prodID', 'thumbnail','brandName', 'size', 'categoryID', 'description', 'quantity','price'])->get();
+        $products = Product::select(['prodID', 'thumbnail','brandName', 'size', 'categoryID', 'description', 'quantity','price'])->whereNull('deleted_at')->get();
     return datatables()->of($products)
           ->editColumn('brandName', function($data){
             $brand = $data->brandName.' - '.$data->size;
@@ -56,12 +60,12 @@ class ProductsController extends Controller
   public function store(Request $request){
     $rules = array(
       'Thumbnail'   => 'required|image|max:2048',
-      'Productname' => 'required|unique_with:products,Productname = brandName,Size = size|max:45',
+      'Productname' => 'required|unique_with:products,Productname = brandName,Size = size|max:30',
       'Category'    => 'required',
       'Size'        => 'required',
       'Price'       => 'required',
       'Qty'         => 'required',
-      'Description' => 'required|max:400'
+      'Description' => 'required|max:300'
     );
 
     $error = Validator::make($request->all(), $rules);
@@ -88,9 +92,33 @@ class ProductsController extends Controller
   }
   public function destroy($id)
   {
-    $data = Product::findOrFail($id);
-    $data->delete();
-    return response()->json(['success' => 'Product has been deleted. ']);
+    $ctr =0;
+
+    $orders = Order::where('prodID',$id)->get();
+    $ordercount = $orders->count();
+
+
+    if ($ordercount > 0 ) {
+      foreach ($orders as $value) {
+        $trans = Transaction::where([['transactionID', $value->transactionID],['status','>',1],['status','<',4]])->get();
+        $transcount = $trans->count();
+        if ($transcount > 0) {
+          $ctr++;
+        }
+      }
+      if ($ctr > 0) {
+        return response()->json(['error' => 'This product belongs to an active transaction!']);
+      }else {
+        $data = Product::findOrFail($id);
+        $data->delete();
+        return response()->json(['success' => 'Product has been deleted. ']);
+      }
+    }else{
+      $data = Product::findOrFail($id);
+      $data->delete();
+      return response()->json(['success' => 'Product has been deleted. ']);
+    }
+
   }
   public function restock(){
     if (request()->ajax()) {
@@ -134,7 +162,7 @@ class ProductsController extends Controller
   public function updateProduct(Request $request, $id){
 
     $rules = array(
-      'Productname' => 'required|max:45',
+      'Productname' => 'required|max:30',
       'Category'    => 'required',
       'Size'        => 'required',
       'Price'       => 'required',

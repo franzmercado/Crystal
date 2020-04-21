@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-warning stkBtn" value="Update">
+          <input type="submit" class="btn btn-info stkBtn" value="Submit">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
         </form>
