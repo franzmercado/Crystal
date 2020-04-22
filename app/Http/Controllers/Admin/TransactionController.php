@@ -15,7 +15,7 @@ class TransactionController extends Controller
 {
   public function index(){
     if (request()->ajax()) {
-    $transacs = Transaction::select('*')->get();
+    $transacs = Transaction::select('*')->orderby('created_at', 'DESC')->get();
     return datatables()->of($transacs)
           ->editColumn('name', function($data){
             $user = User::find($data->userID);
@@ -24,6 +24,20 @@ class TransactionController extends Controller
             return $name;
 
             return 1;
+          })
+          ->editColumn('dateOrder', function($data){
+            $myFunctions = new myFunctions();
+            $oDate = $myFunctions->convernumDate($data->created_at);
+            return $oDate;
+          })
+          ->editColumn('dateFinished', function($data){
+            if ($data->status == 4) {
+              $myFunctions = new myFunctions();
+              $fDate = $myFunctions->convernumDate($data->dateFinished);
+            }else {
+              $fDate = '';
+            }
+            return $fDate;
           })
           ->editColumn('status', function($data){
             $myFunctions = new myFunctions();
@@ -34,40 +48,7 @@ class TransactionController extends Controller
             $total = '₱'.number_format($data->total, 2, '.', ', ');
             return $total;
           })
-          ->addColumn('action', function($data){
-            switch ($data->status) {
-              case 1:
-                      $button = '<button class="btn btn-sm btn-info shwOrder" id="'.$data->transactionID.'"><i class="fa fa-eye fa-lg"></i></button>';
-                      $button .= ' ';
-                      $button .= '<button class="btn btn-sm btn-danger cnclOrder" id="'.$data->transactionID.'"><i class="fas fa-backspace fa-lg"></i></button>';
-                      $button .= ' ';
-                      $button .= '<button class="btn btn-sm btn-success actBtn" id="'.$data->transactionID.'">Accept</button>';
-
-                      break;
-              case 2:
-                      $button = '<button class="btn btn-sm btn-info shwOrder" id="'.$data->transactionID.'"><i class="fa fa-eye fa-lg"></i></button>';
-                      $button .= ' ';
-                      $button .= '<button class="btn btn-sm btn-danger cnclOrder" id="'.$data->transactionID.'"><i class="fas fa-backspace fa-lg"></i></button>';
-                      $button .= ' ';
-                      $button .= '<button class="btn btn-sm btn-success shpBtn" id="'.$data->transactionID.'">Ship</button>';
-              break;
-              case 3:
-                      $button = '<button class="btn btn-sm btn-info shwOrder" id="'.$data->transactionID.'"><i class="fa fa-eye fa-lg"></i></button>';
-                      $button .= ' ';
-                      $button .= '<button class="btn btn-sm btn-danger cnclOrder" id="'.$data->transactionID.'"><i class="fas fa-backspace fa-lg"></i></button>';
-                      $button .= ' ';
-                      $button .= '<button class="btn btn-sm btn-success delBtn" id="'.$data->transactionID.'">Deliver</button>';
-                      break;
-              case 4:
-                      $button = '<button class="btn btn-sm btn-info shwOrder" id="'.$data->transactionID.'"><i class="fa fa-eye fa-lg"></i></button>';
-                      break;
-              default:
-                      $button = '<button class="btn btn-sm btn-info shwOrder" id="'.$data->transactionID.'"><i class="fa fa-eye fa-lg"></i></button>';
-                      break;
-            }
-            return $button;
-          })
-          ->rawColumns(['action', 'status'])
+          ->rawColumns(['status'])
           ->make(true);
      }
 
@@ -89,7 +70,7 @@ class TransactionController extends Controller
               ->join('users', 'transactions.userID', '=', 'users.userID')
               ->join('userinfo', 'users.userID', '=', 'userinfo.userID')
 
-              ->select('transactions.total', 'transactions.created_at', 'users.firstName', 'users.midName', 'users.lastName', 'userinfo.mobileNum',
+              ->select('transactions.total','transactions.status','transactions.dateFinished', 'transactions.created_at', 'users.firstName', 'users.midName', 'users.lastName', 'userinfo.mobileNum',
               'userinfo.buldingNum','userinfo.brgy','userinfo.city', 'userinfo.province')
               ->where('transactions.transactionID', $id)
               ->take(1)->get();
@@ -100,8 +81,10 @@ class TransactionController extends Controller
     $myFunctions = new myFunctions();
     $data['info']['name'] = $myFunctions->concatname($info[0]->lastName,$info[0]->firstName,$info[0]->midName);
     $data['info']['address'] = $myFunctions->makeAddress($info[0]->buldingNum,$info[0]->brgy,$info[0]->city,$info[0]->province);
-
+    $data['info']['status'] = $info[0]->status;
     $data['info']['date'] = $myFunctions->converDate($info[0]->created_at);
+    $data['info']['Fdate'] = $myFunctions->converDate($info[0]->dateFinished);
+
 
     return response()->json(['success' => $data]);
 
@@ -122,6 +105,14 @@ class TransactionController extends Controller
     $data->update();
 
     return response()->json(['success' => ' Transaction Cancelled']);
+  }
+  public function declineOrder(Request $request, $id){
+
+    $data = Transaction::findOrFail($id);
+    $data->status = 9;
+    $data->update();
+
+    return response()->json(['success' => ' Order Declined']);
   }
   public function acceptOrder(Request $request, $id){
 

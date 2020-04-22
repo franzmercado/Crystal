@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Crabbly\Fpdf\FpdfServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         Felixkiss\UniqueWithValidator\ServiceProvider::class,
 

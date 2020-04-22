@@ -100,10 +100,14 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::get('/transactions', 'TransactionController@index')->name('transactions');
     Route::get('/transactions/{id}', 'TransactionController@showOrders')->name('showOrders');
     Route::patch('/transactions/cancel/{id}', 'TransactionController@cancelOrder')->name('cancelOrder');
+    Route::patch('/transactions/decline/{id}', 'TransactionController@declineOrder')->name('declineOrder');
+
     Route::patch('/transactions/accept/{id}', 'TransactionController@acceptOrder')->name('acceptOrder');
     Route::patch('/transactions/ship/{id}', 'TransactionController@shipOrder')->name('shipOrder');
     Route::patch('/transactions/deliver/{id}', 'TransactionController@deliverOrder')->name('deliverOrder');
     Route::get('/reports', 'ReportController@index')->name('reports');
+    Route::get('/reports/generateReport/{type}', 'ReportController@getpdf')->name('getpdfs');
+
 
 
 

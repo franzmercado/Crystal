@@ -4,6 +4,8 @@ $(document).ready(function(){
 	$('#ordersTbl').DataTable({
 			processing: true,
 			serverSide: true,
+			rowId: 'transactionID',
+
 			ajax:{
 				url: "{{ route('admin.transactions')}}",
 			},
@@ -18,8 +20,12 @@ $(document).ready(function(){
 						name: 'name'
 					},
 					{
-						data: 'status',
-						name: 'status'
+						data: 'dateOrder',
+						name: 'dateOrder'
+					},
+					{
+						data: 'dateFinished',
+						name: 'dateFinished'
 					},
 
 					{
@@ -28,25 +34,42 @@ $(document).ready(function(){
 						render: $.fn.DataTable.render.number(',','.','2'),
 					},
 					{
-						data: 'action',
-						name: 'action',
-						orderable: false,
-						className: "text-center",
+						data: 'status',
+						name: 'status'
 					},
+
 			]
 	});
 
-$(document).on('click', '.shwOrder', function(){
+$(document).on('dblclick', '#ordersTbl tr', function(){
 	var id = $(this).attr('id');
 
 	$.ajax({
 		url: "transactions/"+id,
 		method: "GET",
 		success:function(data){
-			console.log(data);
+			{{-- console.log(data); --}}
 			$('#totalPrice').val(data.success.info.total);
 			$('#name').val(data.success.info.name);
+			$('#status').val(data.success.info.status);
+
 			$('#date').val(data.success.info.date);
+			if(data.success.info.status == 4){
+				$('#Fdate').val(data.success.info.Fdate);
+				$('.FinishedDate').attr('style', 'display: block;');
+
+			}else if(data.success.info.status == 1){
+				$('.actBtn').attr('style', 'display: block;');
+				$('.decBtn').attr('style', 'display: block;');
+			}else if(data.success.info.status == 2){
+				$('.shpBtn').attr('style', 'display: block;');
+				$('.cnclOrder').attr('style', 'display: block;');
+			}else if(data.success.info.status == 3){
+				$('.delBtn').attr('style', 'display: block;');
+				$('.cnclOrder').attr('style', 'display: block;');
+
+			}
+
 			$('#contactnum').val('0'+data.success.info.contact);
 			$('#address').val(data.success.info.address);
 
@@ -67,7 +90,8 @@ $('#showOrders').modal('show');
 });
 
 $(document).on('click', '.cnclOrder', function(){
-	var id = $(this).attr('id');
+	var id = $('#transID').text();
+
 	Swal.fire({
 		title: 'Are you sure?',
 		text: "This Transaction will be Cancelled.",
@@ -97,9 +121,42 @@ $(document).on('click', '.cnclOrder', function(){
 	});
 
 });
+$(document).on('click', '.decBtn', function(){
+	var id = $('#transID').text();
 
+	Swal.fire({
+		title: 'Are you sure?',
+		text: "This Order will be declined.",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#B0AEAE',
+		confirmButtonText: 'Confirm'
+	}).then((result) => {
+		if (result.value) {
+			$.ajax({
+				url: "transactions/decline/"+id,
+				type: "PATCH",
+				data:{
+					id : id,
+					_token : '{{ csrf_token()}}',
+				},
+				dataType: "json",
+				success:function(data){
+					if(data.success){
+						$('#showOrders').modal('hide');
+					toastr.success(data.success, 'Success!');
+					}
+				$('#ordersTbl').DataTable().ajax.reload();
+				}
+			});
+		}
+	});
+
+});
 $(document).on('click', '.actBtn', function(){
-	var id = $(this).attr('id');
+	var id = $('#transID').text();
+
 	Swal.fire({
 		title: 'Are you sure?',
 		text: "This order will be Accepted.",
@@ -119,10 +176,10 @@ $(document).on('click', '.actBtn', function(){
 				dataType: "json",
 				success:function(data){
 					if(data.success){
+					$('#showOrders').modal('hide');
 					toastr.success(data.success, 'Success!');
 				}else{
 					toastr.error(data.error, 'Error!');
-
 				}
 				$('#ordersTbl').DataTable().ajax.reload();
 				}
@@ -132,10 +189,11 @@ $(document).on('click', '.actBtn', function(){
 
 });
 $(document).on('click', '.shpBtn', function(){
-	var id = $(this).attr('id');
+	var id = $('#transID').text();
+
 	Swal.fire({
 		title: 'Are you sure?',
-		text: "This order will be Accepted.",
+		text: "This order will be marked as Shipped.",
 		type: 'info',
 		showCancelButton: true,
 		cancelButtonColor: '#B0AEAE',
@@ -152,6 +210,7 @@ $(document).on('click', '.shpBtn', function(){
 				dataType: "json",
 				success:function(data){
 					if(data.success){
+						$('#showOrders').modal('hide');
 					toastr.success(data.success, 'Success!');
 					}
 				$('#ordersTbl').DataTable().ajax.reload();
@@ -162,10 +221,11 @@ $(document).on('click', '.shpBtn', function(){
 
 });
 $(document).on('click', '.delBtn', function(){
-	var id = $(this).attr('id');
+	var id = $('#transID').text();
+
 	Swal.fire({
 		title: 'Are you sure?',
-		text: "This order will be Accepted.",
+		text: "This order will be Completed.",
 		type: 'info',
 		showCancelButton: true,
 		cancelButtonColor: '#B0AEAE',
@@ -182,6 +242,7 @@ $(document).on('click', '.delBtn', function(){
 				dataType: "json",
 				success:function(data){
 					if(data.success){
+						$('#showOrders').modal('hide');
 					toastr.success(data.success, 'Success!');
 					}
 				$('#ordersTbl').DataTable().ajax.reload();
@@ -194,6 +255,15 @@ $(document).on('click', '.delBtn', function(){
 
 	$('#showOrders').on('hidden.bs.modal', function(){
 		$('#showORdersTbl > tbody > tr').remove();
+		$('.FinishedDate').attr('style','display: none;');
+		$('.actBtn').attr('style','display: none;');
+		$('.shpBtn').attr('style','display: none;');
+		$('.delBtn').attr('style','display: none;');
+		$('.decBtn').attr('style','display: none;');
+		$('.cnclOrder').attr('style','display: none;');
+
+
+
 
 	});
 });

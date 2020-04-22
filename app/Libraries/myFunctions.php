@@ -1,7 +1,9 @@
 <?php
 namespace App\Libraries;
 
+
 class myFunctions {
+
   public function transacID(){
     $dateToday = date('Y').date('m').date('d');
     $id = range(0,9);
