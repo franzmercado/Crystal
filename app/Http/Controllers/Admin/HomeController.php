@@ -58,7 +58,7 @@ class HomeController extends Controller
           $result = Transaction::whereYear('dateFinished', '=',date('Y'))
                       ->whereMonth('dateFinished', '=',$mon)
                       ->where('status', 4)->get();
-          $data['sales'][] = $result->count();
+          $data['sales'][] = $result->sum('total');
         }
 
         $pop = Product::where('deleted_at', null)

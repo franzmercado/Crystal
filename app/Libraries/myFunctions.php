@@ -27,6 +27,10 @@ class myFunctions {
     $data = $home.', Brgy.'.$brgy.', '.$city.', '.$prov;
     return $data;
   }
+  public function conLocation($brgy, $city, $prov){
+    $data = 'Brgy.'.$brgy.', '.$city.', '.$prov;
+    return $data;
+  }
   public function getAge($bday){
     $today = date("Y-m-d");
     $diff = date_diff(date_create($bday), date_create($today));
@@ -42,7 +46,11 @@ class myFunctions {
     return $data;
   }
   public function converDate($date){
-    $data = date('M. d, Y', strtotime(explode(" ", $date)[0]));
+    $data = date('M d, Y', strtotime(explode(" ", $date)[0]));
+    return $data;
+  }
+  public function convertDateM($date){
+    $data = date('F d, Y', strtotime(explode(" ", $date)[0]));
     return $data;
   }
   public function convernumDate($date){
@@ -92,5 +100,13 @@ class myFunctions {
           return "<span class='btn btn-danger btn-sm w-100'>Declined</span>";
           break;
       }
+  }
+  public function textStatus($stat){
+    if($stat == 4){
+      $stats = 'Delivered';
+    }elseif ($stat == 3) {
+      $stats = 'Shipping';
+    }
+    return $stats;
   }
 }
