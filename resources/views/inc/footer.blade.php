@@ -1,4 +1,4 @@
-<footer class="site-footer mt-auto py-3">
+{{-- <footer class="site-footer mt-auto py-3">
   <div class="col-md-10 offset-1">
     <strong>Copyright &copy; 2014-2018 <a href="#">Crystal.io</a>.</strong>
     All rights reserved.
@@ -7,4 +7,4 @@
     </div>
   </div>
 
-</footer>
+</footer> --}}

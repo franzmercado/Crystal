@@ -26,16 +26,11 @@ class LoginController extends Controller
      *
      * @var string
      */
-     //protected $redirectTo = '';
+     protected $redirectTo = '/';
 
-     protected function authenticated($request, $user){
-       if ($user['isActive'] ==1) {
-         return redirect('/');
-       } else {
-         Auth::logout();
-         return redirect('/login')->with('error','Your account is Deactivated');
-       }
-     }
+     // protected function authenticated($request, $user){
+     //   
+     // }
 
 
 
@@ -57,15 +52,14 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('auth.login',[
-            'title' => 'User Login',
-            'loginRoute' => 'login',
             'forgotPasswordRoute' => 'password.request',
             'nav' => 2,
+            'custom_js'  => 'login'
         ]);
     }
 
     public function logout(){
         Auth::logout();
-        return redirect('/')->with('status','User has been logged out!');
+        return redirect('/');
     }
 }
