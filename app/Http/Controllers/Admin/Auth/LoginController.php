@@ -53,8 +53,8 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('auth.adminlogin',[
-            'title' => 'Admin Login',
-            'loginRoute' => 'admin.login',
+            'exJS' => 1,
+            'special_js' => 'login',
             'forgotPasswordRoute' => 'admin.password.request',
         ]);
     }
@@ -82,16 +82,18 @@ class LoginController extends Controller
         if(Auth::guard('admin')->attempt($request->only('email','password'),$request->filled('remember'))){
             //Authenticated, redirect to the intended route
             //if available else admin dashboard.
-            return redirect()
-                ->intended(route('admin.home'))
-                ->with('status','You are Logged in as Admin!');
+            // return redirect()
+            //     ->intended(route('admin.home'));
+            return 1;
         }
 
         //keep track of login attempts from the user.
         $this->incrementLoginAttempts($request);
 
         //Authentication failed, redirect back with input.
-        return $this->loginFailed();
+        // return $this->loginFailed();
+        return 'Login failed, please try again!';
+
     }
 
     /**
@@ -103,8 +105,7 @@ class LoginController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()
-            ->route('admin.login')
-            ->with('status','Admin has been logged out!');
+            ->route('admin.login');
     }
 
     /**
@@ -117,17 +118,19 @@ class LoginController extends Controller
     {
         //validation rules.
         $rules = [
-            'email'    => 'required|email|exists:admins|min:5|max:191',
+            'email'    => 'required|email|min:5|max:191',
             'password' => 'required|string|min:4|max:255',
         ];
 
         //custom validation error messages.
-        $messages = [
-            'email.exists' => 'These credentials do not match our records.',
-        ];
+        // $messages = [
+        //     'email.exists' => 'These credentials do not match our records.',
+        // ];
 
         //validate the request.
-        $request->validate($rules,$messages);
+        // $request->validate($rules,$messages);
+        $request->validate($rules);
+
     }
 
     /**
@@ -136,10 +139,7 @@ class LoginController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     private function loginFailed(){
-        return redirect()
-            ->back()
-            ->withInput()
-            ->with('error','Login failed, please try again!');
+        // return 'Login failed, please try again!';
     }
 
     /**

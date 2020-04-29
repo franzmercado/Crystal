@@ -8,6 +8,7 @@
   <title>Admin Login</title>
 
   <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('css/toastr.min.css')}}">
   <link rel="stylesheet" href="{{ asset('../plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{ asset('../css/adminlte.min.css')}}">
   </head>
@@ -26,7 +27,12 @@
 
 
 <script src="{{ asset('../plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{ asset('js/toastr.min.js')}}"></script>
 <script src="{{ asset('../plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+@if(isset($exJS))
+    <script src="{{route('admin.script', ['script' => $special_js])}}" defer></script>
+@endif
 
 </body>
 </html>
