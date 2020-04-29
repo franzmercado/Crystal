@@ -107,7 +107,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $rules = array('descriptions' => 'required|unique:categories,description|max:16');
+      $rules = array('descriptions' => 'required|max:16|unique:categories,description,'.$id);
     $error = Validator::make($request->all(), $rules);
 
     if ($error->fails()) {

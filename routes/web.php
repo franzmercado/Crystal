@@ -80,6 +80,12 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
 
     Route::get('/','HomeController@index')->name('home');
     Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::PUT('/profile/saveInfo', 'HomeController@saveInfo')->name('saveProfile');
+    Route::POST('/profile/checkPass', 'HomeController@checkPass')->name('checkPass');
+    Route::PUT('/profile/changePass', 'HomeController@changePass')->name('changePass');
+
+
+
     Route::get('/getSales', 'HomeController@getSales')->name('getSales');
 
     Route::get('/scripts/{script}.js', 'ScriptController@script')->name('script');
