@@ -16,20 +16,35 @@ $.ajax({
 
 $(document).on('submit', '.form-info', function(e){
   e.preventDefault();
-  $.ajax({
-    url: "{{ route('admin.saveProfile')}}",
-    method: 'PUT',
-    data: $(this).serialize(),
-    success:function(data){
-      if(data.success){
-        toastr.success(data.success, 'Success!');
-      }else{
-        toastr.error(data.errors, 'Error!');
 
-      }
-      {{-- console.log(data); --}}
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "",
+    type: 'warning',
+    showCancelButton: true,
+    cancelButtonColor: '#B0AEAE',
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Confirm'
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: "{{ route('admin.saveProfile')}}",
+        method: 'PUT',
+        data: $(this).serialize(),
+        success:function(data){
+          if(data.success){
+            toastr.success(data.success, 'Success!');
+          }else{
+            toastr.error(data.errors, 'Error!');
+
+          }
+          {{-- console.log(data); --}}
+        }
+      });
     }
   });
+
+
 });
 
 $(document).on('blur', '#cpass', function(){
@@ -99,18 +114,31 @@ $(document).on('submit', '.form-pass', function(e){
     $('#rpass').focus();
     return false;
   }else{
-    $.ajax({
-      url: "{{ route('admin.changePass')}}",
-      type: "PUT",
-      data: {pass : newPass},
-      success:function(data){
-        if(data.success){
-          toastr.success(data.success, 'Success!');
-          $('.form-pass').trigger('reset');
-        }else{
-          toastr.error(data.errors, 'Error!');
 
-        }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "",
+      type: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#B0AEAE',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Confirm'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url: "{{ route('admin.changePass')}}",
+          type: "PUT",
+          data: {pass : newPass},
+          success:function(data){
+            if(data.success){
+              toastr.success(data.success, 'Success!');
+              $('.form-pass').trigger('reset');
+            }else{
+              toastr.error(data.errors, 'Error!');
+
+            }
+          }
+        });
       }
     });
   }

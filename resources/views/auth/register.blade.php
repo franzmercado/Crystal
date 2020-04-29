@@ -2,104 +2,84 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 offset-2">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header"><h5>Sign Up</h5></div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" class="form-register">
                         @csrf
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label for="Firstname" class="mb-0">{{ __('First Name:') }}</label>
+                              <input id="Firstname" type="text" class="form-control" name="Firstname" value="{{ old('fname') }}" required>
+                            </div>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('First Name:') }}</label>
+                            <div class="col-md-4">
+                              <label for="Middlename" class="mb-0">{{ __('Middle Name:') }}</label>
+                                <input id="Middlename" type="text" class="form-control" name="Middlename" value="{{ old('mname') }}" >
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('fname') ? ' is-invalid' : '' }}" name="fname" value="{{ old('fname') }}" required autofocus>
-
-                                @if ($errors->has('fname'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('fname') }}</strong>
-                                    </span>
-                                @endif
+                            </div>
+                            <div class="col-md-4">
+                              <label for="Lastname" class="mb-0">{{ __('Last Name:') }}</label>
+                                <input id="Lastname" type="text" class="form-control" name="Lastname" value="{{ old('mname') }}" required >
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label for="Email" class="mb-0">{{ __('Email address:') }}</label>
+                            <input id="Email" type="email" class="form-control" name="Email" required>
+                          </div>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Middle Name:') }}</label>
+                          <div class="col-md-4">
+                            <label for="Birthday" class="mb-0">{{ __('Birthday:') }}</label>
+                              <input id="Birthday" type="date" class="form-control" name="Birthday" required >
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('mname') ? ' is-invalid' : '' }}" name="mname" value="{{ old('mname') }}" >
+                          </div>
+                          <div class="col-md-2">
+                            <label for="Gender" class="mb-0">{{ __('Gender:') }}</label>
+                            <select class="form-control" name="Gender" id="Gender" required>
+                              <option value="" selected disabled></option>
+                              <option value="0">Female</option>
+                              <option value="1">Male</option>
 
-                                @if ($errors->has('mname'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('mname') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                            </select>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label for="MobileNumber" class="mb-0">{{ __('Contact Number:') }}</label>
+                            <div class="input-container">
+                              <i class="fa icon">+63</i>
+                              {{-- <input class="form-control pl-0" type="text" value="" id="contact" name="contact" pattern="[1-9]{1}[0-9]{9}" required> --}}
+                              <input type="text" name="MobileNumber" id="MobileNumber" class="form-control pl-0" pattern="\d*" minlength="10" maxlength="10" title="10 digits" required>
+
+                              </div>
+
+                          </div>
+                          <div class="col-md-4">
+                            <label for="Password" class="mb-0">{{ __('Password:') }}</label>
+                              <input id="Password" type="password" class="form-control" name="Password" minlength="8" maxlength="12" title="8 to 12 characters" required>
+
+                          </div>
+                          <div class="col-md-4">
+                            <label for="rpass" class="mb-0">{{ __('Confirm Password:') }}</label>
+                              <input id="rpass" type="password" class="form-control" name="rpass" minlength="8" maxlength="12" title="8 to 12 characters" required>
+                              <small class="ml-2"><font color ='red' id="error-pass">*Password do not match.</font></small>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary float-right btn-reg">
+                                {{ __('Register') }}
+                            </button>
+                          </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Last Name:') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('lname') ? ' is-invalid' : '' }}" name="lname" value="{{ old('lname') }}" required >
-
-                                @if ($errors->has('lname'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('lname') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-5">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                                <button type="button" class="btn btn-danger">
-                                    Reset
-                                </button>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>

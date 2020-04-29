@@ -22,7 +22,6 @@ Route::get('/search', 'HomeController@searchProduct')->name('searchProduct');
 
 
 Auth::routes([ 'verify' => true ]);
-
 Route::get('/profile', 'UsersController@index')->name('profile');
 Route::put('/profile/saveInfo', 'UsersController@saveInfo')->name('saveInfo');
 Route::put('/profile/saveAddress', 'UsersController@saveAddress')->name('saveAddress');
