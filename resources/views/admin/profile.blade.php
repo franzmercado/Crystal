@@ -81,7 +81,7 @@
   </div>
   <div class="row">
     <div class="col-md-4 offset-4">
-      <input type="submit" name="" class="btn btn-primary btn-sm float-right" value="Save Changes">
+      <input type="submit" name="" class="btn btn-primary btn-sm btn-submit float-right" value="Save Changes">
     </div>
   </div>
     </form>

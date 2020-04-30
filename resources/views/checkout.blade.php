@@ -40,7 +40,7 @@
             </div>
           </div>
 
-          <textarea name="address" class="form-control" readonly rows="3" cols="80">@php echo $address; @endphp
+          <textarea name="address" id="address" class="form-control" readonly rows="3" cols="80">@php echo $address; @endphp
           </textarea>
           {{-- <h5>Contact Number:</h5>
           <input type="text" name="" value=""> --}}
@@ -57,7 +57,7 @@
           <h5>Total Amount</h5>
           <p></p>
           <br>
-          <button type="button" class="btn btn-primary orderBtn" name="button">PLACE ORDER</button>
+          <button type="button" class="btn btn-primary orderBtn" rel="@php echo $stat; @endphp" name="button">PLACE ORDER</button>
         </div>
       </div>
       </form>

@@ -149,7 +149,7 @@
       </div>
       <div class="col-md-2">
         <br>
-        <input type="submit" name="submit" class="btn btn-primary" value="Save Changes">
+        <input type="submit" name="submit" class="btn btn-primary btn-submit" value="Save Changes">
       </div>
     </div>
   </form>

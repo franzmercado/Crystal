@@ -133,7 +133,14 @@ class UsersController extends Controller
                 ->take(1)->get();
       // echo json_encode($users);die;
       $myFunctions = new myFunctions();
-      $ads = $myFunctions->makeAddress($users[0]->buldingNum,$users[0]->brgy, $users[0]->city,$users[0]->province);
+      if(empty($users[0]->brgy)){
+        $ads = 'Please provide your delivery address.';
+        $stat = 0;
+      }else{
+        $ads = $myFunctions->makeAddress($users[0]->buldingNum,$users[0]->brgy, $users[0]->city,$users[0]->province);
+        $stat = 1;
+
+      }
 
         return view('checkout')->with([
           'nav' => 2,
@@ -142,6 +149,7 @@ class UsersController extends Controller
           'custom_js'  => 'cart',
           'products' => $products,
           'total' => $total,
+          'stat' => $stat,
           'address' => $ads
     ]);
     } else {

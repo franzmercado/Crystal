@@ -34,7 +34,7 @@
 
                           <div class="col-md-4">
                             <label for="Birthday" class="mb-0">{{ __('Birthday:') }}</label>
-                              <input id="Birthday" type="date" class="form-control" name="Birthday" required >
+                              <input id="Birthday" type="date" class="form-control" min="1970-01-01" name="Birthday" required >
 
                           </div>
                           <div class="col-md-2">

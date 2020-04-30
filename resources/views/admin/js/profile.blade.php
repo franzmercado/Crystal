@@ -105,43 +105,46 @@ if(npass == rpass){
 
 $(document).on('submit', '.form-pass', function(e){
   e.preventDefault();
+  $('.btn-submit').focus();
   let newPass = $('#npass').val();
+  setTimeout(function() {
+    if($('.cpass-error').hasClass('error')){
+      $('#cpass').focus();
+      return false;
+    }else if($('.newPass-error').hasClass('error')){
+      $('#rpass').focus();
+      return false;
+    }else{
 
-  if($('.cpass-error').hasClass('error')){
-    $('#cpass').focus();
-    return false;
-  }else if($('.newPass-error').hasClass('error')){
-    $('#rpass').focus();
-    return false;
-  }else{
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#B0AEAE',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: "{{ route('admin.changePass')}}",
+            type: "PUT",
+            data: {pass : newPass},
+            success:function(data){
+              if(data.success){
+                toastr.success(data.success, 'Success!');
+                $('.form-pass').trigger('reset');
+              }else{
+                toastr.error(data.errors, 'Error!');
 
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "",
-      type: 'warning',
-      showCancelButton: true,
-      cancelButtonColor: '#B0AEAE',
-      confirmButtonColor: '#d33',
-      confirmButtonText: 'Confirm'
-    }).then((result) => {
-      if (result.value) {
-        $.ajax({
-          url: "{{ route('admin.changePass')}}",
-          type: "PUT",
-          data: {pass : newPass},
-          success:function(data){
-            if(data.success){
-              toastr.success(data.success, 'Success!');
-              $('.form-pass').trigger('reset');
-            }else{
-              toastr.error(data.errors, 'Error!');
-
+              }
             }
-          }
-        });
-      }
-    });
-  }
+          });
+        }
+      });
+    }
+  }, 300);
+
 });
 
 });

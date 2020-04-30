@@ -96,8 +96,10 @@ $(document).ready(function() {
   });
 
 $(document).on('click', '.orderBtn', function(){
+  let con = $(this).attr('rel');
   var total = $('#total').val();
 
+if(con == 1){
   Swal.fire({
     title: 'Are you sure?',
     text: "",
@@ -126,6 +128,9 @@ $(document).on('click', '.orderBtn', function(){
       });
     }
   });
+}else{
+  $('#address').focus();
+}
 
 });
 

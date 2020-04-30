@@ -63,42 +63,46 @@ $(document).on('submit', '.form-address', function(e){
 
 $(document).on('submit', '.form-password', function(e){
   e.preventDefault();
+  $('.btn-submit').focus();
   var pass = $('#newpass').val();
-  if($('#errorRep').hasClass('error') || $('#errorPass').hasClass('error')){
 
-  }else{
+  setTimeout(function() {
+    if($('#errorRep').hasClass('error') || $('#errorPass').hasClass('error')){
 
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "This form will be submitted.",
-      type: 'warning',
-      showCancelButton: true,
-      cancelButtonColor: '#B0AEAE',
-      confirmButtonColor: '#d33',
-      confirmButtonText: 'Confirm'
-    }).then((result) => {
-      if (result.value) {
+    }else{
 
-            $.ajax({
-              url : "{{route('changePass')}}",
-              method: "PATCH",
-              data: {
-                pass : pass
-              },
-              success:function(data){
-                if(data.success){
-                toastr.success(data.success, 'Success!');
-                $('#newpass').val('');
-                $('#repass').val('');
-                $('#pass').val('');
-                }else{
-                toastr.error(data.error, 'Error!');
-              }
-              }
-            });
-      }
-    });
-  }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#B0AEAE',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.value) {
+
+              $.ajax({
+                url : "{{route('changePass')}}",
+                method: "PATCH",
+                data: {
+                  pass : pass
+                },
+                success:function(data){
+                  if(data.success){
+                  toastr.success(data.success, 'Success!');
+                  $('#newpass').val('');
+                  $('#repass').val('');
+                  $('#pass').val('');
+                  }else{
+                  toastr.error(data.error, 'Error!');
+                }
+                }
+              });
+        }
+      });
+    }
+  }, 300);
 });
 
 $(document).on('blur', '#repass', function(){
