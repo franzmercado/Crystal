@@ -3,7 +3,6 @@
 /public/storage
 /storage/*.key
 /vendor
-/public/plugins
 /database/migrations
 .env
 .phpunit.result.cache

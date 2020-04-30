@@ -21,7 +21,7 @@ $.ajax({
                 $('<img>').attr({'src': srcImg, 'class': 'cimg'})
                 )).append(
                 $('<div>').attr('class', 'caption').append(
-                  $('<h5>').text(value.brandName+' - '+value.size))
+                  $('<p>').text(value.brandName+' - '+value.size))
                 ).append(
                 $('<div>').attr('class', 'price').append(
                   $('<h5>').text(value.price.toFixed(2)).prepend(
@@ -44,7 +44,7 @@ $.ajax({
                   $('<img>').attr({'src': srcImg, 'class': 'cimg'})
                   )).append(
                   $('<div>').attr('class', 'caption').append(
-                    $('<h5>').text(value.brandName+' - '+value.size))
+                    $('<p>').text(value.brandName+' - '+value.size))
                   ).append(
                   $('<div>').attr('class', 'price').append(
                     $('<h5>').text(value.price.toFixed(2)).prepend(

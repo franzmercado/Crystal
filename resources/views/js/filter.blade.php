@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var cid = $('#CategoryID').val();
+  {{-- var cid = $('#CategoryID').val();
 $.ajax({
           url: "/category="+cid,
           method: "GET",
@@ -33,7 +33,7 @@ $.ajax({
     });
 
           }
-      });
+      }); --}}
 
 
 

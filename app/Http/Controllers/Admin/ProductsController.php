@@ -65,7 +65,7 @@ class ProductsController extends Controller
       'Size'        => 'required',
       'Price'       => 'required',
       'Qty'         => 'required',
-      'Description' => 'required|max:300'
+      'Description' => 'required|max:400'
     );
 
     $error = Validator::make($request->all(), $rules);
@@ -175,7 +175,7 @@ class ProductsController extends Controller
     }
 
     $data = Product::findOrFail($id);
-    $data->brandName = $request->Productname;
+    $data->brandName = ucwords(strtolower($request->Productname));
     $data->categoryID = $request->Category;
     $data->size = $request->Size;
     $data->price = $request->Price;

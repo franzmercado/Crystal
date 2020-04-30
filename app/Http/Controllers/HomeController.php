@@ -32,19 +32,13 @@ class HomeController extends Controller
     }
     public function showAll()
     {
-      // if (request()->ajax()) {
-      //   $products = array();
-      //   $products['latest'] = Product::where('deleted_at', null)->orderBy('created_at','desc')->take(8)->get();
-      //   $products['popular'] = Product::where('deleted_at', null)->orderBy('sold','desc')->take(4)->get();
-      //   $products['category'] = Category::where('deleted_at', null)->orderBy('description','asc')->get();
-      //
-      //   return $products;
-      // }
+      $products = Product::where('deleted_at', null)->orderBy('created_at','desc')->paginate(12);
 
         return view('Showall')->with([
-        'nav' => 1,
-        'special_js' => 'main',
-        'custom_js'  => 'home'
+          'nav' => 1,
+          'special_js' => 'main',
+          'data' => $products,
+          'custom_js'  => 'home'
         ]);
     }
     public function showProduct($catid,$id)
@@ -65,10 +59,7 @@ class HomeController extends Controller
     }
     public function showCategory($id){
 
-      if (request()->ajax()) {
-        $products = Product::where('deleted_at', null)->where('categoryID', $id)->orderBy('created_at','desc')->get();
-        return $products;
-      }
+      $products = Product::where('deleted_at', null)->where('categoryID', $id)->orderBy('created_at','desc')->paginate(12);
 
       $category = Category::findOrFail($id);
       $title['catDesc'] = $category->description;
@@ -78,12 +69,14 @@ class HomeController extends Controller
       return view('FilterCategory')->with([
       'nav' => 1,
       'special_js' => 'main',
+      'data' => $products,
       'title' => $title,
       'custom_js'  => 'filter'
       ]);
 
     }
     public function searchProduct(Request $request){
+      return $request;
       return view('searchResult')->with([
       'nav' => 1,
       'special_js' => 'main',
