@@ -67,7 +67,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
       $id = DB::table('users')->latest('created_at')->first();
-      $newID = substr($id->userID,4);
+      if ($id) {
+        $newID = substr($id->userID,4);
+      }else{
+        $newID = 0;
+      }
       $newID++;
       $newID = 'CTL-'.$newID;
 
