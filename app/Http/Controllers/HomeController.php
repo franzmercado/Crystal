@@ -41,7 +41,7 @@ class HomeController extends Controller
           'nav' => 1,
           'special_js' => 'main',
           'data' => $products,
-          'custom_js'  => 'home'
+          'custom_js'  => 'showAll'
         ]);
     }
     public function showProduct($catid,$id)
