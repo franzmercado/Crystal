@@ -1,3 +1,10 @@
+Go to 'public/ads'
+
+import db,
+then paste AuthenticatesUsers and RegistersUsers to '\vendor\laravel\framework\src\Illuminate\Foundation\Auth'
+
+
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
