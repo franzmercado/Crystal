@@ -10,8 +10,17 @@ $(document).ready(function() {
       $(".alert").alert('close');
   }, 3000);
 
-
- itemCount();
+  $.ajax({
+    url : "{{route('checkLog')}}",
+    type : 'GET',
+    success:function(data){
+      if(data == 1){
+        itemCount();
+      }else{
+        return false;
+      }
+    }
+  });
 
 $(document).on('click', '.addCart', function(){
   var id = $(this).attr('id');
@@ -49,7 +58,7 @@ $(document).on('click', '.addCart', function(){
    });
   });
 
-}); 
+});
 
 function itemCount(){
   $.ajax({

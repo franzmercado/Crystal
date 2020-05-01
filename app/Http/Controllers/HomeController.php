@@ -5,6 +5,9 @@ use App\Libraries\myFunctions;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+
 
 class HomeController extends Controller
 {
@@ -76,11 +79,23 @@ class HomeController extends Controller
 
     }
     public function searchProduct(Request $request){
-      return $request;
+      $inp = Input::get('query');
+
+      $results = Product::where([['deleted_at', null],['brandName','LIKE','%'.$inp.'%']])->orderBy('created_at','desc')->paginate(12);
+
       return view('searchResult')->with([
       'nav' => 1,
+      'inp' => $inp,
+      'results' => $results,
       'special_js' => 'main',
       'custom_js'  => 'home'
       ]);
+    }
+    public function checkLog(){
+      if(Auth::check()){
+        return 1;
+      }else{
+        return 0;
+      }
     }
 }

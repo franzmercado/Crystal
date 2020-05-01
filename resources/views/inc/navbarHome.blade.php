@@ -4,9 +4,10 @@
             {{ config('app.name', 'Laravel') }}
         </a>
         <!-- SEARCH FORM -->
-          <form action="{{route('searchProduct')}}"class="form-inline ml-3">
+          <form action="{{route('searchProduct')}}" method="POST" role="search" class="form-inline ml-3">
+              @csrf
                <div class="input-group input-group-md">
-                 <input class="form-control form-control-navbar" id="query" value="{{ request()->input('query')}} " type="search" placeholder="Search" aria-label="Search" size="60">
+                 <input class="form-control form-control-navbar" id="query" name="query"  type="search" placeholder="Search Products" aria-label="Search" size="60">
                  <div class="input-group-append">
                    <button class="btn btn-info" type="submit">
                      <i class="fas fa-search fa-lg"></i>

@@ -16,9 +16,10 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/showAll', 'HomeController@showAll')->name('showAll');
 Route::get('/category={cid}/show={id}', 'HomeController@showProduct')->name('showProduct');
+Route::get('/checkLog', 'HomeController@checkLog')->name('checkLog');
 Route::get('/category={cid}', 'HomeController@showCategory')->name('FilterCategory');
 Route::get('/scripts/{script}.js', 'ScriptController@script')->name('script');
-Route::get('/search', 'HomeController@searchProduct')->name('searchProduct');
+Route::any('/search', 'HomeController@searchProduct')->name('searchProduct');
 
 
 Auth::routes([ 'verify' => true ]);
