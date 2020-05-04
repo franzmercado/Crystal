@@ -45,7 +45,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `lname`, `fname`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Doe', 'John', 'johndoe@admin.com', NULL, '$2y$10$GdaZh3YyMyKx2FTh0kNLT.yM5SC9zz.mVg4xzVk5xhvzPF89ARVd2', '4vgJsPAtUQ0PPuQvWZ4jUbbXLjqQ0AbEMWi2DaIgd3lk8KI6Skbxd1PywDKw', '2019-08-26 23:19:12', '2020-04-29 13:27:12');
+(1, 'Doe', 'John', 'admin@admin.com', NULL, '$2y$10$4QWn9zGr/OGSti1YoZdlkeggvtS8UD6HgShGvgedID2TBpNcrKrnm', '4vgJsPAtUQ0PPuQvWZ4jUbbXLjqQ0AbEMWi2DaIgd3lk8KI6Skbxd1PywDKw', '2019-08-26 23:19:12', '2020-04-29 13:27:12');
 
 -- --------------------------------------------------------
 
