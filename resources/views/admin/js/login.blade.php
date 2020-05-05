@@ -6,8 +6,8 @@ $(document).ready(function() {
   }
 });
 
-$(document).on('click', '#login-btn', function(){
-
+$(document).on('submit', '.login-form', function(e){
+  e.preventDefault();
   $.ajax({
     url: '{{ route('admin.login') }}',
     type: 'POST',
@@ -19,7 +19,18 @@ $(document).on('click', '#login-btn', function(){
         toastr.error(response, 'Error!');
       }
     }
+  }).fail(function(data) {
+    let res = JSON.parse(data.responseText);
+    if(res.errors['email']){
+      toastr.error(res.errors['email'], 'Error!');
+
+    }else{
+      toastr.error('Something went wrong.', 'Error!');
+
+    }
   });
+
+
 
   });
 });

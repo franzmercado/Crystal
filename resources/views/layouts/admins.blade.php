@@ -10,11 +10,10 @@
   <title>{{ config('app.name', 'Crystal') }}</title>
 
 
-  <link rel="stylesheet" href="{{ asset('css/all.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('css/app.css')}}">
   <link rel="stylesheet" href="{{ asset('css/toastr.min.css')}}">
   <link rel="stylesheet" href="{{ asset('css/OverlayScrollbars.min.css')}}">
   <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
   <link rel="stylesheet" href="{{ asset('css/custom_admin.css')}}">
   <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css')}}">
   <link rel="stylesheet" href="{{ asset('css/chart.css')}}">
@@ -41,13 +40,11 @@
   <!-- /.content-wrapper -->
 </div>
 </div>
-<!-- ./wrapper -->
-{{-- <script src="{{ asset('plugins/jquery/jquery.min.js')}} "></script> --}}
+
+
 <script src="{{ asset('js/app.js')}}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{ asset('js/jquery.overlayScrollbars.min.js')}}"></script>
 <script src="{{ asset('js/toastr.min.js')}}"></script>
-<script src="{{ asset('js/adminlte.js')}}"></script>
 <script src="{{ asset('js/sweetalert2.all.js')}}"></script>
 <script src="{{ asset('js/sweetalert2.min.js')}}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js')}}"></script>

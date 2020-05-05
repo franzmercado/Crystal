@@ -45,21 +45,21 @@
             <li class="nav-item">
               <a href="{{ route('admin.addProduct')}}" class="nav-link  {{ Request::path() == 'admin/products/add' ? 'active' : '' }}">
 
-              <i class="far fa-circle nav-icon"></i>
+              <i class="fa fa-plus nav-icon"></i>
                 <p>Add Product</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ route('admin.manageProducts')}}" class="nav-link  {{ Request::path() == 'admin/products' ? 'active' : '' }}">
 
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-cog nav-icon"></i>
                 <p>Manage Products</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ route('admin.restockProduct')}}" class="nav-link  {{ Request::path() == 'admin/products/restock' ? 'active' : '' }}">
 
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-plus nav-icon"></i>
                 <p>Restock</p>
               </a>
             </li>

@@ -7,8 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}" media="screen">
-    {{-- fontawesome --}}
-    <link rel="stylesheet" href="{{ asset('css/all.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css')}}">

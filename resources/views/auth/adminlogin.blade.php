@@ -31,7 +31,7 @@
       </div>
       <!-- /.col -->
       <div class="col-4">
-        <button type="button" class="btn btn-primary btn-block btn-flat" id="login-btn">
+        <button type="submit" class="btn btn-primary btn-block btn-flat" id="login-btn">
             {{ __('Login') }}
         </button>      </div>
       @if (Route::has('password.request'))
