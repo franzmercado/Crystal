@@ -1,3 +1,5 @@
+Created using Laravel + JQuery
+
 Setup:
 Go to 'public/ads'
 
