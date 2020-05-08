@@ -5,7 +5,9 @@
 <div class="row">
   <div class="col-md-3">
     <div class="categorySection" >
-      <font class="float-right mr-2 mt-1" color="black">v</font>
+      <!-- <font class="float-right mr-2 mt-1" color="black">v</font> -->
+
+        <i class="fas fa-angle-down fa-lg float-right mt-2 mr-2"></i>
 
         <h5 class="m-2" id="cathead" align="center">Categories </h5>
       <ul class="list-group" id="categoryList" >
