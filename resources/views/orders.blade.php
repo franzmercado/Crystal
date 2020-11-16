@@ -4,12 +4,12 @@
 
 
     <div class="p-4 bg-white border rounded">
-      <div class="col-md-10 offset-1" style="min-height:500px;">
+      <div class="col-md-10 offset-1" id="order_page" style="min-height:500px;">
         <h4><b>My Order(s)</b></h4>
         <hr>
 
               {{-- d-flex justify-content-between align-items-center --}}
-        <ul class="list-group">
+        <ul  class="list-group" id="list-group">
 
           @if (isset($tranlist))
             @foreach ($tranlist as $key => $value)

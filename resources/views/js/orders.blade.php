@@ -24,8 +24,8 @@ $(document).ready(function(){
   				success:function(data){
   					if(data.success){
   					toastr.success(data.success, 'Success!');
+            $( "#list-group" ).load(window.location.href + " #list-group " );
   					}
-  				$('#purchaseTbl').DataTable().ajax.reload();
   				}
   			});
   		}
