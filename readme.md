@@ -1,4 +1,4 @@
-Crystal is a Ecommerce system that i built for my Ecommerce subject using Laravel 5.7 & Jquery.
+Crystal is a Ecommerce system that i built for my Ecommerce subject using Laravel 5.7 & jQuery.
 
 Setup:
 Go to 'public/ads';

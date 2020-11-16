@@ -9,6 +9,7 @@
 
   <title>{{ config('app.name', 'Crystal') }}</title>
 
+  <link rel="icon" type="image/png" href="{{ asset('dist/img/crystalLogo.png') }}">
 
   <link rel="stylesheet" href="{{ asset('css/app.css')}}">
   <link rel="stylesheet" href="{{ asset('css/toastr.min.css')}}">

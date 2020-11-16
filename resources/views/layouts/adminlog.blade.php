@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Admin Login</title>
+  <link rel="icon" type="image/png" href="{{ asset('dist/img/crystalLogo.png') }}">
 
   {{-- <link rel="stylesheet" href="{{ asset('css/all.min.css')}}"> --}}
   <link rel="stylesheet" href="{{ asset('../css/app.css')}}">

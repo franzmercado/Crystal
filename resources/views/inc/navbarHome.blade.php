@@ -37,7 +37,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a href="{{route('profile')}}" class="dropdown-item">Profile</a>
-                            <a href="{{route('orders')}}" class="dropdown-item">My Purchase</a>
+                            <a href="{{route('orders')}}" class="dropdown-item">My Orders</a>
                             <a class="dropdown-item" href="#"
                                 onclick="event.preventDefault();
                                                 document.querySelector('#logout-form').submit();">

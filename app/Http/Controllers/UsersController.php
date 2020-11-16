@@ -245,60 +245,35 @@ class UsersController extends Controller
 
   public function orders()
   {
-    if (request()->ajax()) {
+    $productDetails = array();
     $userID = Auth::id();
-    $transacs = Transaction::select('*')->where('userID', $userID)->orderBy('created_at','DESC')->get();
-    return datatables()->of($transacs)
-          ->editColumn('items', function($data){
-            $items = Order::select('prodID', 'quantity')->where('transactionID', $data->transactionID)->get();
-            $itemlist = '';
-            foreach ($items as $value) {
-              $name = Product::select('brandName', 'size')->where('prodID', $value['prodID'])->first();
-              $itemlist .= "<p class='m-0'>".$name['brandName']." ".$name['size']." - ".$value['quantity']."pc(s)</p>";
-            }
+    $trans = Transaction::select('*')->where('userID', $userID)->orderBy('created_at','DESC')->get();
+    $ctr = 0;
+    foreach ($trans as $value) {
+      $orderlist = Order::select('prodID', 'quantity')->where('transactionID', $value->transactionID)->get();
 
-            return $itemlist;
-          })
-          ->editColumn('dOrder', function($data){
-            $myFunctions = new myFunctions();
-            $orderDate = $myFunctions->convernumDate($data->created_at);
+      $productDetails[$ctr]['transID'] = $value->transactionID;
+      $productDetails[$ctr]['stat'] = $value->status;
+      $productDetails[$ctr]['total'] = $value->total;
+      $productDetails[$ctr]['dateStart'] = $value->created_at;
+      $productDetails[$ctr]['dateFinished'] = $value->dateFinished;
+      $inctr=0;
+      foreach ($orderlist as $value) {
+        $details = Product::select('thumbnail','brandName', 'size')->where('prodID', $value->prodID)->first();
+        $productDetails[$ctr]['details'][$inctr]['thumbnail'] = $value->thumbnail;
 
-            return $orderDate;
-          })
-          ->editColumn('dDelivered', function($data){
-            if ($data->status == 4) {
-              $myFunctions = new myFunctions();
-              $del = $myFunctions->convernumDate($data->dateFinished);
-            }else {
-              $del = '';
-            }
-            return $del;
-          })
-          ->editColumn('total', function($data){
-            $total = '₱'.number_format($data->total, 2, '.', ', ');
-            return $total;
-          })
-          ->editColumn('status', function($data){
-            $myFunctions = new myFunctions();
-            $stat = $myFunctions->orderCStatus($data->status);
+        $productDetails[$ctr]['details'][$inctr]['quantity'] = $value->quantity;
+        $productDetails[$ctr]['details'][$inctr]['brandName'] = $details->brandName;
+        $productDetails[$ctr]['details'][$inctr]['size'] = $details->size;
+        $inctr++;
+      }
+      $ctr++;
+    }
 
-            return $stat;
-          })
-          ->addColumn('action', function($data){
-            if ($data->status == 1 || $data->status == 2) {
-              $button = '<button class="btn btn-sm btn-danger cnlOrder" id="'.$data->transactionID.'"><i class="fa fa-window-close fa-lg"></i></button>';
-            }else {
-              $button = '';
-
-            }
-            return $button;
-          })
-          ->rawColumns(['action', 'items', 'status'])
-          ->make(true);
-     }
       return view('orders')->with([
         'nav' => 2,
         'sjs' => 1,
+        'tranlist' => $productDetails,
         'special_js' => 'main',
         'custom_js'  => 'orders',
   ]);
@@ -308,24 +283,28 @@ class UsersController extends Controller
     $tID = $id;
     $res = Transaction::select('status')->where('transactionID', $tID)->first();
 
-    if ($res->status == 2) {
-      $orders = Order::where('transactionID', $id)->get();
-      foreach ($orders as $order) {
-        $quantity = Product::select('quantity')->where('prodID', $order->prodID)->first();
-        $new = $quantity->quantity + $order->quantity;
-        $prod = Product::find($order->prodID);
-        $prod->quantity = $new;
-        $prod->update();
+    if ($res->status <= 2) {
+
+      if ($res->status == 2) {
+        $orders = Order::where('transactionID', $id)->get();
+        foreach ($orders as $order) {
+          $quantity = Product::select('quantity')->where('prodID', $order->prodID)->first();
+          $new = $quantity->quantity + $order->quantity;
+          $prod = Product::find($order->prodID);
+          $prod->quantity = $new;
+          $prod->update();
+        }
+      }else {
+        // code...
       }
+      $data = Transaction::findOrFail($tID);
+      $data->status = 0;
+      $data->update();
+
+      return response()->json(['success' => ' Transaction Cancelled']);
     }else {
       // code...
     }
-
-    $data = Transaction::findOrFail($tID);
-    $data->status = 0;
-    $data->update();
-
-    return response()->json(['success' => ' Transaction Cancelled']);
   }
   public function saveInfo(Request $request){
     try {

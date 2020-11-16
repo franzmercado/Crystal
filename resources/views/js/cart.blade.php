@@ -1,5 +1,3 @@
-{{-- <script> --}}
-
 $(document).ready(function() {
 
 
@@ -19,6 +17,8 @@ $(document).ready(function() {
               }else{
                 $.each(data,function(key, value){
                   {{-- console.log(value); --}}
+
+                  $('.pcdBtn').removeAttr('style');
                   var i = key + 1;
 
                   var cat = value.categoryID;
@@ -57,7 +57,7 @@ $(document).ready(function() {
                                 ).append(
                                 $('<div>').attr('class', 'col-md-2').append(
                                       $('<label>').text('Qty.').append(
-                                        $('<input>').attr({'type': 'number', 'class' : 'form-control mt-2 valQty', 'name': 'valQtys[]','id': value.price,'rel': value.id, 'value': value.qty, 'min': 1,'max': value.quantity , 'steps': 1})
+                                        $('<input>').attr({'type': 'number', 'class' : 'form-control mt-2 valQty', 'name': 'valQtys[]','id': value.price,'rel': value.id, 'value': value.qty, 'min': 1,'max': value.quantity , 'steps': 1, 'onkeydown': 'return false'})
                                         ).append(
                                         $('<input>').attr({'type': 'hidden', 'class' : ' hidProd', 'name': 'prod[]', 'value': value.prodID})
                                         )))));
@@ -135,20 +135,22 @@ if(con == 1){
 });
 
 $(document).on('click', '#butsub', function(e){
-  $.ajax({
-    url: "{{ route('checkStocks')}}",
-    method: "GET",
-    success:function(data){
-      if(data === 'true'){
-        $('#cartForm').submit();
-      }else{
-        $.each(data, function(k,v) {
-          let errormsg = v+" has not enough stocks!"
-          toastr.error(errormsg, 'Error!');
-        });
+
+    $.ajax({
+      url: "{{ route('checkStocks')}}",
+      method: "GET",
+      success:function(data){
+        if(data === 'true'){
+          $('#cartForm').submit();
+        }else{
+          $.each(data, function(k,v) {
+            let errormsg = v+" has not enough stocks!"
+            toastr.error(errormsg, 'Error!');
+          });
+        }
       }
-    }
-  });
+    });
+
 });
 
 
